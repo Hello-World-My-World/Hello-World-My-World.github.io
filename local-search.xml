@@ -4,11 +4,30 @@
   
   
   <entry>
+    <title>Many Task Learning</title>
+    <link href="/2022/10/02/2022-10-02-Many%20Task%20Learning/"/>
+    <url>/2022/10/02/2022-10-02-Many%20Task%20Learning/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>Paper title: <a href="https://arxiv.org/abs/1903.12117"><em>Many Task Learning with Task Routing</em></a></p></blockquote><h2 id="introduction">Introduction</h2><p>Multi-Task Learning (MLT) is an approach to achieve several targets in one model.</p><p>Many Task Learning is a special case on MTL where more than 20 tasks are learnt.</p><ul><li><p>Asymmetric MTL</p><p>There exists a main target task and several auxiliary tasks, which are trained <strong>simultaneously</strong> to assist the main task with their learnt knowledge. It shares similarity with transferring learning that is leveraging several trained models on other task to help one specific task.</p></li><li><p>Symmetric MTL</p><p>All tasks have equivalent status in final evaluation.</p></li></ul><h2 id="task-routing">Task Routing</h2><h3 id="unit-role">Unit Role</h3><p>MaTL defines every unit in its model to be either task-specific or shared. It is determined by a pre-defined hyper-parameter <span class="math inline">\(\sigma\)</span>. <span class="math inline">\(\sigma=0\)</span> means that all units are task-specific and all tasks will be performed with zero shard knowledge, while <span class="math inline">\(\sigma=1\)</span> means all units are fully shared. The role of each unit would be consistent throughout training and testing progress.</p><p><img src="/images/2022-10-02-Many%20Task%20Learning/Unit%20Role.png" /></p><h3 id="task-routing-mask">Task Routing Mask</h3><p>Task routing is performed via feature-wise transformation in convolutional layer. These non-learnable binary masks would be randomly generated and kept permanent during training and testing procedure. To avoid influence upon running means and variances in normalisation, the task routing mask is inserted after normalisation operation and before activation function.</p><p><img src="/images/2022-10-02-Many%20Task%20Learning/Task%20Mask.png" /> <span class="math display">\[TRL_{A}(X)=m_{A} \odot X\]</span> <img src="/images/2022-10-02-Many%20Task%20Learning/Task%20Routing%20Layer.png" /></p><h2 id="training-procedure">Training Procedure</h2><p><img src="/images/2022-10-02-Many%20Task%20Learning/Training%20Epoch.png" /></p><p><img src="/images/2022-10-02-Many%20Task%20Learning/Forward%20Pass.png" /></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Deep-Learning</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Switch Transformer</title>
     <link href="/2022/09/28/2022-09-28-Switch%20Transformer/"/>
     <url>/2022/09/28/2022-09-28-Switch%20Transformer/</url>
     
-    <content type="html"><![CDATA[<blockquote><p>Paper title: <em>Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity</em></p><p>Video explanation: <a href="https://www.youtube.com/watch?v=iAR8LkkMMIM">Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity</a></p></blockquote><h2 id="abstract">0. Abstract</h2><p>Switch Transformer is a kind of sparse Transformer architecture inspired by MoE(Mixture of Experts). It is built with much larger amount of parameters (Trillion), while remain in the same time complexity level.</p><h2 id="introduction">1. Introduction</h2><p>It is a shallow intuition that, in current status, a larger model always comes with a better performance. Yet, a larger model in traditional way would inevitably brings larger computational cost, since parameters need to be calculated with input. In Switch Transformer, the model has larger scale but remain the computational cost unchanged.</p><h2 id="architecture">2. Architecture</h2><p>Regular Transformer blocks constitute of Self-Attention layer, Add-Norm, Feed-Forward, Add-Norm in this very order. A view to understand this is that Self-Attention layer exploits inter-relationship among tokens (words) and Feed-Forward layer translates token representation form one layer's to another's. The main problem here is that despite word property vary, like nouns and verbs, while representation translating matrix, a.k.a Feed-Forward matrix remains identical. Switch Transformer introduces a MoE-like component, Switching Feed-Forward Layer.</p><p><img src="/images/2022-09-28-Switch%20Transformer/Switching-Feed-Forward.png" /></p><p>A Switching Feed-Forward Layer consists of a Router and several traditional Feed-Forward blocks acting as experts in MoE. The router gives a probability distribution of which expert the incoming token shall be re-directed to.</p><p>Ideally, every token shall be re-directed to its the most favoured experts. Yet, due to overflows, some experts get way more incoming tokens that others. Switch Transformer adopts No-Token-Left-Behind Routing Strategy to balance load across experts. Those un-re-directed tokens would be reviewed for a second time to be re-directed to the second most favoured expert.</p><p>No computer except super computer can hold this sort of super large module on one device. This paper also offer a plan to deploy with a distributed system.</p><p><img src="/images/2022-09-28-Switch%20Transformer/Data-and-weight-partitioning-strategies.png" /></p>]]></content>
+    <content type="html"><![CDATA[<blockquote><p>Paper title: <a href="https://arxiv.org/abs/2101.03961"><em>Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity</em></a></p><p>Video explanation: <a href="https://www.youtube.com/watch?v=iAR8LkkMMIM">Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity</a></p></blockquote><h2 id="abstract">0. Abstract</h2><p>Switch Transformer is a kind of sparse Transformer architecture inspired by MoE(Mixture of Experts). It is built with much larger amount of parameters (Trillion), while remain in the same time complexity level.</p><h2 id="introduction">1. Introduction</h2><p>It is a shallow intuition that, in current status, a larger model always comes with a better performance. Yet, a larger model in traditional way would inevitably brings larger computational cost, since parameters need to be calculated with input. In Switch Transformer, the model has larger scale but remain the computational cost unchanged.</p><h2 id="architecture">2. Architecture</h2><p>Regular Transformer blocks constitute of Self-Attention layer, Add-Norm, Feed-Forward, Add-Norm in this very order. A view to understand this is that Self-Attention layer exploits inter-relationship among tokens (words) and Feed-Forward layer translates token representation form one layer's to another's. The main problem here is that despite word property vary, like nouns and verbs, while representation translating matrix, a.k.a Feed-Forward matrix remains identical. Switch Transformer introduces a MoE-like component, Switching Feed-Forward Layer.</p><p><img src="/images/2022-09-28-Switch%20Transformer/Switching-Feed-Forward.png" /></p><p>A Switching Feed-Forward Layer consists of a Router and several traditional Feed-Forward blocks acting as experts in MoE. The router gives a probability distribution of which expert the incoming token shall be re-directed to.</p><p>Ideally, every token shall be re-directed to its the most favoured experts. Yet, due to overflows, some experts get way more incoming tokens that others. Switch Transformer adopts No-Token-Left-Behind Routing Strategy to balance load across experts. Those un-re-directed tokens would be reviewed for a second time to be re-directed to the second most favoured expert.</p><p>No computer except super computer can hold this sort of super large module on one device. This paper also offer a plan to deploy with a distributed system.</p><p><img src="/images/2022-09-28-Switch%20Transformer/Data-and-weight-partitioning-strategies.png" /></p>]]></content>
     
     
     
@@ -56,7 +75,7 @@
     
     <tags>
       
-      <tag>Guidance</tag>
+      <tag>Guide</tag>
       
     </tags>
     
