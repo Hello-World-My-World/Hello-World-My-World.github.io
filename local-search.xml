@@ -4,6 +4,44 @@
   
   
   <entry>
+    <title>Multi-gate Mixture-of-Experts (MMoE)</title>
+    <link href="/2022/10/07/2022-10-07-Multi-gate%20Mixture-of-Experts%20(MMoE)/"/>
+    <url>/2022/10/07/2022-10-07-Multi-gate%20Mixture-of-Experts%20(MMoE)/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>Paper title: <a href="https://dl.acm.org/doi/10.1145/3219819.3220007">Modeling Task Relationships in Multi-task Learning with Multi-gate Mixture-of-Experts</a></p></blockquote><h2 id="method">Method</h2><p>In contrast to normal MoE models, Multi-gate MoE(MMoE) uses several gates to differentiate inter-task difference.</p><p>In traditional one-gate MoE models, all tasks use an identical gate to balance the output of each expert. <span class="math display">\[y=\sum_{i=1}^{n} g(x)_{i} f_{i}(x)\]</span> <span class="math inline">\(g(x)\)</span> is the output of the gate where x is the task input and <span class="math inline">\(g(x)_i\)</span> is a softmax-ed weight for expert <span class="math inline">\(i\)</span> and <span class="math inline">\(f_i(x)\)</span> is the output of one expert.</p><p>MMoE uses several gates, each of which specialise on one task.</p><p><img src="/images/2022-10-07-Multi-gate%20Mixture-of-Experts%20(MMoE)/MMoE.png" /> <span class="math display">\[\begin{align}&amp;y_{k}=h^{k}\left(f^{k}(x)\right)\\&amp;f^{k}(x)=\sum_{i=1} g^{k}(x)_{i} f_{i}(x)\\&amp;g^{k}(x)=\operatorname{softmax}\left(W_{g k} x\right)\end{align}\]</span> where <span class="math inline">\(W_{g k}x \in \mathbb{R}^{n\times d}\)</span> is a trainable matrix. <span class="math inline">\(n\)</span> is the number of experts and <span class="math inline">\(d\)</span> is the feature dimension.</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Deep-Learning</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Routing Networks for Multi-task Learning</title>
+    <link href="/2022/10/04/2022-10-04-Routing%20Networks%20for%20Multi-task%20Learning/"/>
+    <url>/2022/10/04/2022-10-04-Routing%20Networks%20for%20Multi-task%20Learning/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>Paper title: <a href="https://arxiv.org/abs/1711.01239">Routing Networks: Adaptive Selection of Non-linear Functions for Multi-task Learning</a></p></blockquote><h2 id="method">Method</h2><p>This paper adopt Reinforcement Learning (RL) to train routers to make right decisions in routing tasks. The whole model is constituted of function block sets and a router.</p><p><img src="/images/2022-10-04-Routing%20Networks%20for%20Multi-task%20Learning/Routing.png" /></p><p>In the iteration of one training step, the input goes into router first (perhaps with some task labels) to pick a function in function set for this round.</p><p><img src="/images/2022-10-04-Routing%20Networks%20for%20Multi-task%20Learning/Routing%20Algorithm.png" /></p><p>When the input passes the chosen function block, it goes back to router to pick another function block again. This time router would pick another function from another set.</p><p>Once all function set are visited, that is one step is fully completed, the backward propaganda toward functions and rewards toward router start. First, a loss function is applied on predicted value and ground truth. The error is back propagated in a traditional way through all selected function blocks and all learn-able parameters including weights and biases in these blocks are updated. Then, for decision made by router, a reinforcement learning training strategy is applied. If prediction is correct, action reward is set to +1, otherwise reward is -1.</p><p><img src="/images/2022-10-04-Routing%20Networks%20for%20Multi-task%20Learning/Forward%20and%20Backward.png" /></p><p><img src="/images/2022-10-04-Routing%20Networks%20for%20Multi-task%20Learning/Router%20Trainer.png" /></p><p>Multiple routing strategies have been tried out.</p><p><img src="/images/2022-10-04-Routing%20Networks%20for%20Multi-task%20Learning/Task-based%20Routing.png" /></p><ul><li><p>Single RL agent strategy</p><p>Only one routing agent is trained and used. The router takes value and task pair to make a routing decision.</p></li><li><p>Per-Task RL strategy</p><p>There exist several RL agents. And a non-trainable choice of router is made upon task label token.</p></li><li><p>Dispatcher agent strategy</p><p>There is a specialised agent called Dispatcher, which only make decision on which router this incoming pair should be re-directed to. It's like a secondary layer of routing network on original routing agent layer.</p></li></ul><h2 id="rl-training-strategy">RL Training Strategy</h2><p>Skipped</p><blockquote><p>Will be updated soon (maybe...)</p></blockquote>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Deep-Learning</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Many Task Learning</title>
     <link href="/2022/10/02/2022-10-02-Many%20Task%20Learning/"/>
     <url>/2022/10/02/2022-10-02-Many%20Task%20Learning/</url>
