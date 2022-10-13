@@ -16,15 +16,15 @@
   <meta name="author" content="Doctor">
   <meta name="keywords" content="">
   
-    <meta name="description" content="@ 2021.12.18 19:55 UTC+0800 v1 @ 2021.12.30 18:59 UTC+0800 v2  Linux上有一些常用的工具，在迁移或重装系统后容易忘记如何安装，本指南以Debian&#x2F;Ubuntu系列为例，指导我在未来安装这些工具，以实现快速的环境还原。 1. aptitude 可用于解决依赖冲突的Debian&#x2F;Ubuntu系列的包管理器 1234su">
+    <meta name="description" content="@ 2021.12.18 19:55 UTC+0800 v1 @ 2021.12.30 18:59 UTC+0800 v2 @ 2022.10.13 13:44 UTC+0800 v3  Linux上有一些常用的工具，在迁移或重装系统后容易忘记如何安装，本指南以Debian&#x2F;Ubuntu系列为例，指导我在未来安装这些工具，以实现快速的环境还原。 1. aptitude 可用于解决依">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux迁移指南">
 <meta property="og:url" content="http://hello-world-my-world.github.io/2021/12/18/2021-12-18-Linux%E8%BF%81%E7%A7%BB%E6%8C%87%E5%8D%97/index.html">
 <meta property="og:site_name" content="Hello-World-My-World">
-<meta property="og:description" content="@ 2021.12.18 19:55 UTC+0800 v1 @ 2021.12.30 18:59 UTC+0800 v2  Linux上有一些常用的工具，在迁移或重装系统后容易忘记如何安装，本指南以Debian&#x2F;Ubuntu系列为例，指导我在未来安装这些工具，以实现快速的环境还原。 1. aptitude 可用于解决依赖冲突的Debian&#x2F;Ubuntu系列的包管理器 1234su">
+<meta property="og:description" content="@ 2021.12.18 19:55 UTC+0800 v1 @ 2021.12.30 18:59 UTC+0800 v2 @ 2022.10.13 13:44 UTC+0800 v3  Linux上有一些常用的工具，在迁移或重装系统后容易忘记如何安装，本指南以Debian&#x2F;Ubuntu系列为例，指导我在未来安装这些工具，以实现快速的环境还原。 1. aptitude 可用于解决依">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-12-18T11:55:00.000Z">
-<meta property="article:modified_time" content="2022-09-23T11:53:35.609Z">
+<meta property="article:modified_time" content="2022-10-13T05:44:35.542Z">
 <meta property="article:author" content="Doctor">
 <meta property="article:tag" content="Guide">
 <meta name="twitter:card" content="summary_large_image">
@@ -219,7 +219,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.5k words
+          7k words
         
       </span>
     
@@ -230,7 +230,7 @@
         
         
         
-          55 mins
+          59 mins
         
       </span>
     
@@ -276,6 +276,7 @@
                 <blockquote>
 <p>@ 2021.12.18 19:55 UTC+0800 v1</p>
 <p>@ 2021.12.30 18:59 UTC+0800 v2</p>
+<p>@ 2022.10.13 13:44 UTC+0800 v3</p>
 </blockquote>
 <p>Linux上有一些常用的工具，在迁移或重装系统后容易忘记如何安装，本指南以Debian/Ubuntu系列为例，指导我在未来安装这些工具，以实现快速的环境还原。</p>
 <h2 id="aptitude">1. aptitude</h2>
@@ -384,6 +385,11 @@
 <h2 id="syncthing">15. syncthing</h2>
 <p>一种P2P去中心化的文件同步工具</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo install syncthing<br><br><span class="hljs-comment"># Change 127.0.0.1 -&gt; localip/0.0.0.0/127.0.0.1</span><br>vim ~/.config/syncthing/config.xml<br><br>syncthing<br></code></pre></td></tr></table></figure>
+<h2 id="supervisor">16. supervisor</h2>
+<p>支持自动重启的服务管理</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt install supervisor<br></code></pre></td></tr></table></figure>
+<p>配置文件 <code>/etc/supervisor/conf.d/service-name.conf</code></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[program:service-name]</span><br><span class="hljs-attr">command</span>= bash service.sh <span class="hljs-comment">; command waiting to be executed</span><br><span class="hljs-attr">autostart</span>=<span class="hljs-literal">true</span>      <span class="hljs-comment">; starts as supervisor starts</span><br><span class="hljs-attr">startsecs</span>=<span class="hljs-number">5</span>         <span class="hljs-comment">; exit later than this waiting seconds ends will be seen as start up succeeded</span><br><span class="hljs-attr">autorestart</span>=<span class="hljs-literal">true</span>    <span class="hljs-comment">; restart on exit [unexpected,true,false]</span><br><span class="hljs-attr">startretries</span>=<span class="hljs-number">5</span>       <span class="hljs-comment">; retry times</span><br><span class="hljs-attr">user</span>=root            <span class="hljs-comment">; user to execute</span><br><span class="hljs-attr">priority</span>=<span class="hljs-number">999</span>         <span class="hljs-comment">; small priority will be executed first</span><br></code></pre></td></tr></table></figure>
 
                 
               </div>
