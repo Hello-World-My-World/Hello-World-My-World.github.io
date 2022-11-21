@@ -338,14 +338,16 @@
 <p>左右划分窗格: <kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>%</kbd></p>
 <p>上下划分窗格: <kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>"</kbd></p>
 <p>切换窗格: <kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>arrow-key</kbd></p>
-<p>变换当前窗格大小: <kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>Ctrl</kbd>+<kbd>arrow-key</kbd></p>
+<p>变换当前窗格大小: <kbd>Ctrl</kbd>+<kbd>b</kbd>
+<kbd>Ctrl</kbd>+<kbd>arrow-key</kbd></p>
 <p>关闭当前窗格: <kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>x</kbd></p>
 <p>将当前窗格与全屏间切换: <kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>z</kbd></p>
 <p>显示窗格编号: <kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>q</kbd></p>
 <p>创建新窗口: <kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>c</kbd></p>
 <p>切换上一个窗口: <kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>p</kbd></p>
 <p>切换下一个窗口: <kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>n</kbd></p>
-<p>切换到指定编号的窗口: <kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>number</kbd> <code>number</code>是状态栏上的窗口编号。</p>
+<p>切换到指定编号的窗口: <kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>number</kbd>
+<code>number</code>是状态栏上的窗口编号。</p>
 <p>交互式切换窗口: <kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>w</kbd></p>
 <p>交互式切换会话: <kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>s</kbd></p>
 <p>帮助: <kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>?</kbd></p>
@@ -379,7 +381,8 @@
 <h2 id="docker-docker-compose">14. docker &amp; docker-compose</h2>
 <p>轻量化的虚拟机</p>
 <blockquote>
-<p><a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/docker-ce/">Docker-CE清华源详细帮助</a></p>
+<p><a
+target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/docker-ce/">Docker-CE清华源详细帮助</a></p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs bash">https://registry.docker-cn.com<span class="hljs-comment"># Ubuntu All in one</span><br>curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun<br><br><span class="hljs-comment"># Ubuntu manually install with TUNA</span><br>sudo apt-get install apt-transport-https ca-certificates curl gnupg2 software-properties-common<br>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -<br>sudo add-apt-repository \<br>   <span class="hljs-string">&quot;deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu \</span><br><span class="hljs-string">   <span class="hljs-subst">$(lsb_release -cs)</span> \</span><br><span class="hljs-string">   stable&quot;</span><br>sudo apt-get install docker-ce docker-ce-cli containerd.io<br><br><span class="hljs-comment"># Raspberry</span><br>sudo apt-get install docker-ce docker-ce-cli containerd.io<br><br><span class="hljs-comment"># Install docker-compose</span><br>sudo curl -L https://github.com/docker/compose/releases/download/1.17.0/docker-compose-`<span class="hljs-built_in">uname</span> -s`-`<span class="hljs-built_in">uname</span> -m` -o /usr/local/bin/docker-compose<br>sudo <span class="hljs-built_in">chmod</span> +x /usr/local/bin/docker-compose<br><br><span class="hljs-comment"># 添加到组以避免使用sudo</span><br>sudo usermod -aG docker your-user<br><br><span class="hljs-comment"># Change to dockerhub-china</span><br>sudo vim /etc/docker/daemon.json<br><br><span class="hljs-comment"># in /etc/docker/daemon.json</span><br>&#123;<br>  <span class="hljs-string">&quot;registry-mirrors&quot;</span>: [<span class="hljs-string">&quot;https://docker.mirrors.ustc.edu.cn&quot;</span>]<br>&#125;<br>sudo systemctl daemon-reload<br>sudo service docker restart<br><br><span class="hljs-comment"># portainer.io UI for docker</span><br>docker pull portainer/portainer<br>docker run -d -p 9000:9000 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /mnt/docker/portainer:/data portainer/portainer<br></code></pre></td></tr></table></figure>
 <h2 id="syncthing">15. syncthing</h2>

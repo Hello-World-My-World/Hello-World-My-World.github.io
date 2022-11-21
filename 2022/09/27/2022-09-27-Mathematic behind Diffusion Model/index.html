@@ -16,22 +16,19 @@
   <meta name="author" content="Doctor">
   <meta name="keywords" content="">
   
-    <meta name="description" content="This is a note for Diffusion Model Explanation Video by youtuber Outlier(09:33-24:21)  Reference: Diffusion Models | Paper Explanation | Math Explained Diffusion Models 模型的数学解释  1. Basic Intuiti">
+    <meta name="description" content="This is a note for Diffusion Model Explanation Video by youtuber Outlier(09:33-24:21)  Reference: Diffusion Models | Paper Explanation | Math Explained Diffusion Models 模型的数学解释  1. Basic Intui">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mathematic behind Diffusion Model">
 <meta property="og:url" content="http://hello-world-my-world.github.io/2022/09/27/2022-09-27-Mathematic%20behind%20Diffusion%20Model/index.html">
 <meta property="og:site_name" content="Hello-World-My-World">
-<meta property="og:description" content="This is a note for Diffusion Model Explanation Video by youtuber Outlier(09:33-24:21)  Reference: Diffusion Models | Paper Explanation | Math Explained Diffusion Models 模型的数学解释  1. Basic Intuiti">
+<meta property="og:description" content="This is a note for Diffusion Model Explanation Video by youtuber Outlier(09:33-24:21)  Reference: Diffusion Models | Paper Explanation | Math Explained Diffusion Models 模型的数学解释  1. Basic Intui">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://hello-world-my-world.github.io/images/2022-09-27-Mathematic%20behind%20Diffusion%20Model/training-algorithm.png">
-<meta property="og:image" content="http://hello-world-my-world.github.io/images/2022-09-27-Mathematic%20behind%20Diffusion%20Model/sampling-algorithm.png">
 <meta property="article:published_time" content="2022-09-26T16:02:12.000Z">
 <meta property="article:modified_time" content="2022-09-27T02:52:06.400Z">
 <meta property="article:author" content="Doctor">
 <meta property="article:tag" content="Deep-Learning">
 <meta property="article:tag" content="Mathematics">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://hello-world-my-world.github.io/images/2022-09-27-Mathematic%20behind%20Diffusion%20Model/training-algorithm.png">
   
   
   
@@ -277,110 +274,191 @@
             
               <div class="markdown-body">
                 
-                <p>This is a note for Diffusion Model Explanation Video by youtuber <a target="_blank" rel="noopener" href="https://www.youtube.com/channel/UCwA8PYIymQEXh7jwcrIUDHg"><em>Outlier</em></a>(09:33-24:21)</p>
+                <p>This is a note for Diffusion Model Explanation Video by youtuber <a
+target="_blank" rel="noopener" href="https://www.youtube.com/channel/UCwA8PYIymQEXh7jwcrIUDHg"><em>Outlier</em></a>(09:33-24:21)</p>
 <blockquote>
 <p><strong><em>Reference</em></strong>:</p>
-<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=HoKDTa5jHvg">Diffusion Models | Paper Explanation | Math Explained</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Et4y177w4">Diffusion Models 模型的数学解释</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=HoKDTa5jHvg">Diffusion
+Models | Paper Explanation | Math Explained</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Et4y177w4">Diffusion
+Models 模型的数学解释</a></p>
 </blockquote>
 <h2 id="basic-intuition">1. Basic Intuition</h2>
-<p>The diffusion model gradually add noise to a given image and try to recover that image in a reversed progress through a neural network.</p>
-<p>In general the model could simply take a completely noised image to generate original image by single step, but practice has proved it to be ineffective. Step-by-step strategy has been proved to be a more realistic and effective approach.</p>
-<p>Here step-by-step strategy means the identical model takes a noised image and outputs a slightly de-noised image. Approaches to recover image from a noised one can be categorised into 3 classes:</p>
+<p>The diffusion model gradually add noise to a given image and try to
+recover that image in a reversed progress through a neural network.</p>
+<p>In general the model could simply take a completely noised image to
+generate original image by single step, but practice has proved it to be
+ineffective. Step-by-step strategy has been proved to be a more
+realistic and effective approach.</p>
+<p>Here step-by-step strategy means the identical model takes a noised
+image and outputs a slightly de-noised image. Approaches to recover
+image from a noised one can be categorised into 3 classes:</p>
 <ol type="1">
 <li><p>recover the whole image in one step</p></li>
 <li><p>recover a slightly de-noised image step by step</p></li>
 <li><p>predict the noise component in image step by step</p></li>
 </ol>
-<p>Substantially, approach 2 and approach 3 have the same effect, for once noise component is calculated, one can recover a de-noised image by subtract noise component from input.</p>
+<p>Substantially, approach 2 and approach 3 have the same effect, for
+once noise component is calculated, one can recover a de-noised image by
+subtract noise component from input.</p>
 <h2 id="basic-notation">2. Basic Notation</h2>
 <ul>
 <li>Image</li>
 </ul>
-<p>Let <span class="math inline">\(x_t\)</span> be the image that being perturbed for <span class="math inline">\(t\)</span> times. So <span class="math inline">\(x_0\)</span> is the original image and <span class="math inline">\(x_T\)</span> is the image when all perturbing procedure is done, which follows a isotropic Gaussian distribution. <span class="math inline">\(T\)</span> is different across different papers. Initially it is set to <span class="math inline">\(1000\)</span>.</p>
+<p>Let <span class="math inline">\(x_t\)</span> be the image that being
+perturbed for <span class="math inline">\(t\)</span> times. So <span
+class="math inline">\(x_0\)</span> is the original image and <span
+class="math inline">\(x_T\)</span> is the image when all perturbing
+procedure is done, which follows a isotropic Gaussian distribution.
+<span class="math inline">\(T\)</span> is different across different
+papers. Initially it is set to <span
+class="math inline">\(1000\)</span>.</p>
 <ul>
 <li>Forward Process</li>
 </ul>
-<p>Let <span class="math inline">\(q\)</span> be a function that describe the perturbing procedure step. It takes an image <span class="math inline">\(x_t\)</span> as input and output an image <span class="math inline">\(x_{t+1}\)</span> with more noise.</p>
+<p>Let <span class="math inline">\(q\)</span> be a function that
+describe the perturbing procedure step. It takes an image <span
+class="math inline">\(x_t\)</span> as input and output an image <span
+class="math inline">\(x_{t+1}\)</span> with more noise.</p>
 <p><span class="math display">\[
 q(x_t|x_{t-1})
 \]</span></p>
 <ul>
 <li>Backward Process</li>
 </ul>
-<p>Similarly, Let <span class="math inline">\(p\)</span> be a de-nosing function, which outputs a de-noised image <span class="math inline">\(x_{t-1}\)</span> based on image <span class="math inline">\(x_{t}\)</span>. This part will be done through deep learning models.</p>
+<p>Similarly, Let <span class="math inline">\(p\)</span> be a de-nosing
+function, which outputs a de-noised image <span
+class="math inline">\(x_{t-1}\)</span> based on image <span
+class="math inline">\(x_{t}\)</span>. This part will be done through
+deep learning models.</p>
 <p><span class="math display">\[
 p(x_{t-1}|x_t)
 \]</span></p>
-<h2 id="forward-and-backward-process-deduction">3. Forward and Backward Process Deduction</h2>
-<p>By assuming that noise is subjected to Gaussian distribution, we have:</p>
+<h2 id="forward-and-backward-process-deduction">3. Forward and Backward
+Process Deduction</h2>
+<p>By assuming that noise is subjected to Gaussian distribution, we
+have:</p>
 <p><span class="math display">\[
-q(x_t|x_{t-1})=\mathcal{N}(x_t; \sqrt{1-\beta_t} x_{t-1}, \beta_tI) \tag{1}
+q(x_t|x_{t-1})=\mathcal{N}(x_t; \sqrt{1-\beta_t} x_{t-1}, \beta_tI)
+\tag{1}
 \]</span></p>
-<p>where <span class="math inline">\(\mathcal{N}\)</span> denotes as normal distribution. Output is denoted as <span class="math inline">\(x_{t-1}\)</span>. <span class="math inline">\(\beta_t\)</span> is a coefficient that controls mean and variance of the distribution in each step. It is pre-set in accordance with step <span class="math inline">\(t\)</span>.</p>
-<p>In favour of formula deduction, we define two new coefficients <span class="math inline">\(\alpha_t\)</span> and <span class="math inline">\(\overline{\alpha_t}\)</span> as follow:</p>
+<p>where <span class="math inline">\(\mathcal{N}\)</span> denotes as
+normal distribution. Output is denoted as <span
+class="math inline">\(x_{t-1}\)</span>. <span
+class="math inline">\(\beta_t\)</span> is a coefficient that controls
+mean and variance of the distribution in each step. It is pre-set in
+accordance with step <span class="math inline">\(t\)</span>.</p>
+<p>In favour of formula deduction, we define two new coefficients <span
+class="math inline">\(\alpha_t\)</span> and <span
+class="math inline">\(\overline{\alpha_t}\)</span> as follow:</p>
 <p><span class="math display">\[
 \alpha_t=1-\beta_t\\
 \overline{\alpha_t}=\prod_{i=1}^t{\alpha_i}
 \]</span></p>
-<p>We use <span class="math inline">\((1)\)</span> to expand <span class="math inline">\(x_{t-1}\)</span> term in equation <span class="math inline">\((1)\)</span>:</p>
+<p>We use <span class="math inline">\((1)\)</span> to expand <span
+class="math inline">\(x_{t-1}\)</span> term in equation <span
+class="math inline">\((1)\)</span>:</p>
 <p><span class="math display">\[
 \begin{aligned}
-q(x_t|x_{t-1})&amp;=\mathcal{N}(x_t; \sqrt{1-\beta_t} x_{t-1}, \beta_tI)\\
+q(x_t|x_{t-1})&amp;=\mathcal{N}(x_t; \sqrt{1-\beta_t} x_{t-1},
+\beta_tI)\\
 &amp;= \sqrt{1-\beta_t}x_{t-1}+\sqrt{\beta_t}\epsilon\\
-&amp;= \sqrt{1-\beta_t}(\sqrt{1-\beta_{t-1}}x_{t-2}+\sqrt{\beta_{t-1}}\epsilon)+\sqrt{\beta_t}\epsilon\\
-&amp;= \sqrt{\alpha_{t}}(\sqrt{\alpha_{t-1}}x_{t-2}+\sqrt{1-\alpha_{t-1}}\epsilon)+\sqrt{1-\alpha_{t}}\epsilon\\
-&amp;= \sqrt{\alpha_{t-1}\alpha_t}x_{t-2}+(\sqrt{\alpha_t-\alpha_{t-1}\alpha_t}+\sqrt{1-\alpha_t})\epsilon
+&amp;=
+\sqrt{1-\beta_t}(\sqrt{1-\beta_{t-1}}x_{t-2}+\sqrt{\beta_{t-1}}\epsilon)+\sqrt{\beta_t}\epsilon\\
+&amp;=
+\sqrt{\alpha_{t}}(\sqrt{\alpha_{t-1}}x_{t-2}+\sqrt{1-\alpha_{t-1}}\epsilon)+\sqrt{1-\alpha_{t}}\epsilon\\
+&amp;=
+\sqrt{\alpha_{t-1}\alpha_t}x_{t-2}+(\sqrt{\alpha_t-\alpha_{t-1}\alpha_t}+\sqrt{1-\alpha_t})\epsilon
 \end{aligned}\tag{2}
 \]</span></p>
-<p>Here, we notice that two normal distribution is added. For normal distribution addition, we have:</p>
+<p>Here, we notice that two normal distribution is added. For normal
+distribution addition, we have:</p>
 <p><span class="math display">\[
-\mathcal{N}(\mu_0, \delta_0^2)+\mathcal{N}(\mu_1, \delta_1^2)=\mathcal{N}(\mu_0+\mu_1, \delta_0^2,+\delta_1^2)
+\mathcal{N}(\mu_0, \delta_0^2)+\mathcal{N}(\mu_1,
+\delta_1^2)=\mathcal{N}(\mu_0+\mu_1, \delta_0^2,+\delta_1^2)
 \]</span></p>
 <p>So <span class="math inline">\((2)\)</span> equals:</p>
 <p><span class="math display">\[
 \begin{aligned}
 x_t=q(x_t|x_{t-1})&amp;=\sqrt{\alpha_{t-1}\alpha_t}x_{t-2}+(\sqrt{\alpha_t-\alpha_{t-1}\alpha_t}+\sqrt{1-\alpha_t})\epsilon\\
-&amp;= \sqrt{\alpha_{t-1}\alpha_t}x_{t-2}+\sqrt{1-\alpha_{t-1}\alpha_t}\epsilon\\
+&amp;=
+\sqrt{\alpha_{t-1}\alpha_t}x_{t-2}+\sqrt{1-\alpha_{t-1}\alpha_t}\epsilon\\
 &amp; \text{recursive substitution}\\
-&amp;= \sqrt{\prod_{i=1}^t\alpha_i}x_0+\sqrt{1-\prod_{i=1}^t\alpha_i}\epsilon\\
-&amp;= \sqrt{\overline{\alpha_t}}x_0+\sqrt{1-\overline{\alpha_t}}\epsilon
+&amp;=
+\sqrt{\prod_{i=1}^t\alpha_i}x_0+\sqrt{1-\prod_{i=1}^t\alpha_i}\epsilon\\
+&amp;=
+\sqrt{\overline{\alpha_t}}x_0+\sqrt{1-\overline{\alpha_t}}\epsilon
 \end{aligned}\tag{2}
 \]</span></p>
-<p>Likewise, <span class="math inline">\(p\)</span> can be defined as:</p>
+<p>Likewise, <span class="math inline">\(p\)</span> can be defined
+as:</p>
 <p><span class="math display">\[
-p(x_{t-1}|x_t)=\mathcal{N}(x_{x-1}; \mu_\theta(x_t,t),\Sigma_\theta(x_t,t))
+p(x_{t-1}|x_t)=\mathcal{N}(x_{x-1};
+\mu_\theta(x_t,t),\Sigma_\theta(x_t,t))
 \]</span></p>
-<p>where <span class="math inline">\(\mu_{\theta}\)</span> is a neural network that predict mean, <span class="math inline">\(\Sigma_\theta\)</span> can be seen as a fixed parameter according to training schedule.</p>
+<p>where <span class="math inline">\(\mu_{\theta}\)</span> is a neural
+network that predict mean, <span
+class="math inline">\(\Sigma_\theta\)</span> can be seen as a fixed
+parameter according to training schedule.</p>
 <h2 id="loss-function">4. Loss Function</h2>
-<p>Bear in mind that our final goal is to predict the noise component in each step.</p>
-<p>We use negative log likelihood as loss function to maximise the probability to generate real image. <span class="math display">\[
+<p>Bear in mind that our final goal is to predict the noise component in
+each step.</p>
+<p>We use negative log likelihood as loss function to maximise the
+probability to generate real image. <span class="math display">\[
 \text{Loss Function} = -log(p_{\theta}(x_0))
-\]</span> The probability of <span class="math inline">\(p_\theta(x_0)\)</span> is hard to calculate, since it is related with <span class="math inline">\(x_0, x_1, \cdots, x_T\)</span>. We have the following inequation instead. <span class="math display">\[
-\text{Loss Function} = -log(p_\theta(x_0)) \leq -log(p_\theta(x_0)) + D_{KL}(q(x_{1:T}|x_0)||p_\theta(x_{1:T}|x_0))
+\]</span> The probability of <span
+class="math inline">\(p_\theta(x_0)\)</span> is hard to calculate, since
+it is related with <span class="math inline">\(x_0, x_1, \cdots,
+x_T\)</span>. We have the following inequation instead. <span
+class="math display">\[
+\text{Loss Function} = -log(p_\theta(x_0)) \leq -log(p_\theta(x_0)) +
+D_{KL}(q(x_{1:T}|x_0)||p_\theta(x_{1:T}|x_0))
 \]</span></p>
-<p>It is our goal to minimise the KL diversion between <span class="math inline">\(q\)</span> and <span class="math inline">\(p_\theta\)</span> since this diversion depict the distance between results of two progresses. Once the goal is reached, the KL diversion is <span class="math inline">\(0\)</span>.</p>
-<p>We expand KL diversion into <span class="math inline">\(log\)</span> form. <span class="math display">\[
+<p>It is our goal to minimise the KL diversion between <span
+class="math inline">\(q\)</span> and <span
+class="math inline">\(p_\theta\)</span> since this diversion depict the
+distance between results of two progresses. Once the goal is reached,
+the KL diversion is <span class="math inline">\(0\)</span>.</p>
+<p>We expand KL diversion into <span class="math inline">\(log\)</span>
+form. <span class="math display">\[
 \begin{aligned}
-D_{KL}(q(x_{1: T}|x_{0}) || p_{\theta}(x_{1: T}|x_{0}))&amp;=log \frac{q(x_{1: T}|x_{0})}{p_{\theta}(x_{1: T} | x_{0})}\\
-&amp;=log\frac{q(x_{1: T}|x_{0})}{\frac{p_{\theta}(x_{0} x_{1: T}) p_{\theta}(x_{1: T})}{p_{\theta}(x_{0})}}\\
-&amp;=log\frac{q(x_{1: T}|x_{0})}{\frac{p_\theta(x_0,x_{1:T})}{p_{\theta}(x_{0})}}\\
-&amp;=log\frac{q(x_{1: T}|x_{0})}{\frac{p_\theta(x_{0:T})}{p_{\theta}(x_{0})}}\\
-&amp;=log\frac{q(x_{1: T}|x_{0})}{p_{\theta}(x_{0: T})}+log (p_{\theta}(x_{0}))
+D_{KL}(q(x_{1: T}|x_{0}) || p_{\theta}(x_{1: T}|x_{0}))&amp;=log
+\frac{q(x_{1: T}|x_{0})}{p_{\theta}(x_{1: T} | x_{0})}\\
+&amp;=log\frac{q(x_{1: T}|x_{0})}{\frac{p_{\theta}(x_{0} x_{1: T})
+p_{\theta}(x_{1: T})}{p_{\theta}(x_{0})}}\\
+&amp;=log\frac{q(x_{1:
+T}|x_{0})}{\frac{p_\theta(x_0,x_{1:T})}{p_{\theta}(x_{0})}}\\
+&amp;=log\frac{q(x_{1:
+T}|x_{0})}{\frac{p_\theta(x_{0:T})}{p_{\theta}(x_{0})}}\\
+&amp;=log\frac{q(x_{1: T}|x_{0})}{p_{\theta}(x_{0: T})}+log
+(p_{\theta}(x_{0}))
 \end{aligned}
-\]</span> By expanding KL diversion term, the uncalculatable term is gone. The loss function remains as follow. <span class="math display">\[
-\text{Loss Function} \leq log\frac{q(x_{1: T}|x_{0})}{p_{\theta}(x_{0: T})}\tag{3}
-\]</span> The conditional probability can be expanded into serial product term as follow. <span class="math display">\[
+\]</span> By expanding KL diversion term, the uncalculatable term is
+gone. The loss function remains as follow. <span class="math display">\[
+\text{Loss Function} \leq log\frac{q(x_{1: T}|x_{0})}{p_{\theta}(x_{0:
+T})}\tag{3}
+\]</span> The conditional probability can be expanded into serial
+product term as follow. <span class="math display">\[
 \begin{aligned}
-log\frac{q(x_{1: T}|x_{0})}{p_{\theta}(x_{0: T})}&amp;=log\frac{\prod_{i=1}^T{q(x_{i}|x_{i-1})}}{p_\theta(x_T)\prod_{i=1}^T{p_\theta(x_{i-1}|x_{i})}}\\
+log\frac{q(x_{1: T}|x_{0})}{p_{\theta}(x_{0:
+T})}&amp;=log\frac{\prod_{i=1}^T{q(x_{i}|x_{i-1})}}{p_\theta(x_T)\prod_{i=1}^T{p_\theta(x_{i-1}|x_{i})}}\\
 &amp;=log\frac{\prod_{i=1}^T{q(x_{i}|x_{i-1})}}{\prod_{i=1}^T{p_\theta(x_{i-1}|x_{i})}}-log(p_\theta(x_T))\\
 &amp;=\sum_{i=1}^T(log(\frac{q(x_{i}|x_{i-1})}{p_\theta(x_{i-1}|x_{i})}))-log(p_\theta(x_T))\\
 &amp;=\sum_{i=2}^T(log(\frac{q(x_{i}|x_{i-1})}{p_\theta(x_{i-1}|x_{i})}))+\frac{q(x_{1}|x_{0})}{p_\theta(x_{0}|x_{1})}-log(p_\theta(x_T))\\
 &amp;=\sum_{i=2}^T(log(\frac{\frac{q(x_{t-1}|x_t)q(x_t)}{q(x_{t-1})}}{p_\theta(x_{i-1}|x_{i})}))+\frac{q(x_{1}|x_{0})}{p_\theta(x_{0}|x_{1})}-log(p_\theta(x_T))\\
 \end{aligned}\tag{4}
-\]</span> Focus on the first term in this equation, those probability with <span class="math inline">\(q(x_{t-1}|x_{t})\)</span> is with high variance, since its real meaning is that to generate <span class="math inline">\(t-1\)</span> from <span class="math inline">\(t\)</span> and when t is large, the image is nearly completely noised. It is highly impossible to recover image correctly. A better way to deal with this issue is let it also condition on <span class="math inline">\(x_0\)</span>. <span class="math display">\[
+\]</span> Focus on the first term in this equation, those probability
+with <span class="math inline">\(q(x_{t-1}|x_{t})\)</span> is with high
+variance, since its real meaning is that to generate <span
+class="math inline">\(t-1\)</span> from <span
+class="math inline">\(t\)</span> and when t is large, the image is
+nearly completely noised. It is highly impossible to recover image
+correctly. A better way to deal with this issue is let it also condition
+on <span class="math inline">\(x_0\)</span>. <span
+class="math display">\[
 \begin{aligned}
-log\frac{q(x_{1: T}|x_{0})}{p_{\theta}(x_{0: T})}&amp;=\sum_{i=2}^T(log(\frac{\frac{q(x_{t-1}|x_t)q(x_t)}{q(x_{t-1})}}{p_\theta(x_{i-1}|x_{i})}))+\frac{q(x_{1}|x_{0})}{p_\theta(x_{0}|x_{1})}-log(p_\theta(x_T))\\
+log\frac{q(x_{1: T}|x_{0})}{p_{\theta}(x_{0:
+T})}&amp;=\sum_{i=2}^T(log(\frac{\frac{q(x_{t-1}|x_t)q(x_t)}{q(x_{t-1})}}{p_\theta(x_{i-1}|x_{i})}))+\frac{q(x_{1}|x_{0})}{p_\theta(x_{0}|x_{1})}-log(p_\theta(x_T))\\
 &amp;\Rightarrow\sum_{i=2}^T(log(\frac{\frac{q(x_{t-1}|x_t,x_0)q(x_t|x_0)}{q(x_{t-1}|x_0)}}{p_\theta(x_{i-1}|x_{i})}))+\frac{q(x_{1}|x_{0})}{p_\theta(x_{0}|x_{1})}-log(p_\theta(x_T))\\
 &amp;=\sum_{i=2}^T(log(\frac{q(x_{t-1}|x_t,x_0)q(x_t|x_0)}{q(x_{t-1}|x_0)p_\theta(x_{i-1}|x_{i})}))+\frac{q(x_{1}|x_{0})}{p_\theta(x_{0}|x_{1})}-log(p_\theta(x_T))\\
 &amp;=\sum_{i=2}^T(log(\frac{q(x_{t-1}|x_t,x_0)}{p_\theta(x_{i-1}|x_{i})}))+\sum_{i=2}^T{log(\frac{q(x_t|x_0)}{q(x_{t-1}|x_0)}})+\frac{q(x_{1}|x_{0})}{p_\theta(x_{0}|x_{1})}-log(p_\theta(x_T))\\
@@ -392,27 +470,60 @@ log\frac{q(x_{1: T}|x_{0})}{p_{\theta}(x_{0: T})}&amp;=\sum_{i=2}^T(log(\frac{\f
 &amp;=\sum_{i=2}^T(log(\frac{q(x_{t-1}|x_t,x_0)}{p_\theta(x_{i-1}|x_{i})}))+D_{KL}(q(x_T|x_0)||p_\theta(x_T))-log(p_\theta(x_{0}|x_{1}))\\
 &amp;=\sum_{i=2}^T(D_{KL}(q(x_{t-1}|x_t,x_0)||p_\theta(x_{i-1}|x_{i})))+D_{KL}(q(x_T|x_0)||p_\theta(x_T))-log(p_\theta(x_{0}|x_{1}))\\
 \end{aligned}
-\]</span> The second term would approach to <span class="math inline">\(0\)</span> since it is the final goal to make <span class="math inline">\(q\)</span> fully recover the original image.</p>
+\]</span> The second term would approach to <span
+class="math inline">\(0\)</span> since it is the final goal to make
+<span class="math inline">\(q\)</span> fully recover the original
+image.</p>
 <p>We then closely exam the first term: <span class="math display">\[
 \sum_{i=2}^T(D_{KL}(q(x_{t-1}|x_t,x_0)||p_\theta(x_{i-1}|x_{i})))
-\]</span> It depict distance between <span class="math inline">\(p_\theta\)</span> and <span class="math inline">\(q\)</span>.</p>
-<p><span class="math inline">\(p_\theta\)</span> can be re-written into normal distribution form. Since we have the variance fixed in accordance with training schedule, we do not have to use model <span class="math inline">\(\theta\)</span> to predict it. <span class="math display">\[
-p_\theta(x_{i-1}|x_{i})=\mathcal{N}(x_{i-1};\mu_\theta(x_t, t), \delta)=\mathcal{N}(x_{i-1};\mu_\theta(x_t, t), \beta I)
-\]</span> <span class="math inline">\(q\)</span> can also be re-written into normal distribution form. <span class="math display">\[
-q(x_{t-1}|x_t,x_0)=\mathcal{N}(x_{t-1};\tilde{\mu}(x_t,x_0), \tilde{\beta}I)
-\]</span> Here, the coefficients <span class="math inline">\(\tilde{\mu}(x_t,x_0), \tilde{\beta}\)</span> are scheduled as follow. Similarly, <span class="math inline">\(\beta\)</span> is fixed. <span class="math display">\[
+\]</span> It depict distance between <span
+class="math inline">\(p_\theta\)</span> and <span
+class="math inline">\(q\)</span>.</p>
+<p><span class="math inline">\(p_\theta\)</span> can be re-written into
+normal distribution form. Since we have the variance fixed in accordance
+with training schedule, we do not have to use model <span
+class="math inline">\(\theta\)</span> to predict it. <span
+class="math display">\[
+p_\theta(x_{i-1}|x_{i})=\mathcal{N}(x_{i-1};\mu_\theta(x_t, t),
+\delta)=\mathcal{N}(x_{i-1};\mu_\theta(x_t, t), \beta I)
+\]</span> <span class="math inline">\(q\)</span> can also be re-written
+into normal distribution form. <span class="math display">\[
+q(x_{t-1}|x_t,x_0)=\mathcal{N}(x_{t-1};\tilde{\mu}(x_t,x_0),
+\tilde{\beta}I)
+\]</span> Here, the coefficients <span
+class="math inline">\(\tilde{\mu}(x_t,x_0), \tilde{\beta}\)</span> are
+scheduled as follow. Similarly, <span
+class="math inline">\(\beta\)</span> is fixed. <span
+class="math display">\[
 \begin{aligned}
-\tilde{\mu}(x_t,x_0)&amp;=\frac{\sqrt{\alpha_{t}}(1-\overline{\alpha}_{t-1})}{1-\overline{\alpha}_{t}} x_{t}+\frac{\sqrt{\overline{\alpha}_{t-1}} \beta_{t}}{1-\overline{\alpha}_{t}} x_{0}\\
-\tilde{\beta}_{t}&amp;=\frac{1-\overline{\alpha}_{t-1}}{1-\overline{\alpha}_{t}} \cdot \beta_{t}
+\tilde{\mu}(x_t,x_0)&amp;=\frac{\sqrt{\alpha_{t}}(1-\overline{\alpha}_{t-1})}{1-\overline{\alpha}_{t}}
+x_{t}+\frac{\sqrt{\overline{\alpha}_{t-1}}
+\beta_{t}}{1-\overline{\alpha}_{t}} x_{0}\\
+\tilde{\beta}_{t}&amp;=\frac{1-\overline{\alpha}_{t-1}}{1-\overline{\alpha}_{t}}
+\cdot \beta_{t}
 \end{aligned}
-\]</span> For <span class="math inline">\(\tilde{\mu}\)</span>, we substitute <span class="math inline">\(x_0\)</span> with <span class="math inline">\((2)\)</span> in <span class="math inline">\(x_0\)</span>, then we have: <span class="math display">\[
+\]</span> For <span class="math inline">\(\tilde{\mu}\)</span>, we
+substitute <span class="math inline">\(x_0\)</span> with <span
+class="math inline">\((2)\)</span> in <span
+class="math inline">\(x_0\)</span>, then we have: <span
+class="math display">\[
 \begin{aligned}
 x_t&amp;=\sqrt{\overline{\alpha_t}}x_0+\sqrt{1-\overline{\alpha_t}}\epsilon\\
-\Rightarrow x_0&amp;=\frac{1}{\sqrt{\overline{\alpha_t}}}(x_t-\sqrt{1-\overline{\alpha_t}}\epsilon)\\
-\tilde{\mu}(x_t,x_0)&amp;=\frac{\sqrt{\alpha_{t}}(1-\overline{\alpha}_{t-1})}{1-\overline{\alpha}_{t}} x_{t}+\frac{\sqrt{\overline{\alpha}_{t-1}} \beta_{t}}{1-\overline{\alpha}_{t}} x_{0}\\
-&amp;=\frac{\sqrt{\alpha_{t}}(1-\overline{\alpha}_{t-1})}{1-\overline{\alpha}_{t}} x_{t}+\frac{\sqrt{\overline{\alpha}_{t-1}} \beta_{t}}{1-\overline{\alpha}_{t}}\frac{1}{\sqrt{\overline{\alpha_t}}}(x_t-\sqrt{1-\overline{\alpha_t}}\epsilon)\\
-&amp;=\frac{\sqrt{\alpha_{t}}(1-\overline{\alpha}_{t-1})}{1-\overline{\alpha}_{t}} x_{t}+\frac{\sqrt{\overline{\alpha}_{t-1}} \beta_{t}}{1-\overline{\alpha}_{t}}\frac{1}{\sqrt{\overline{\alpha_t}}}x_t-\frac{1}{\sqrt{\overline{\alpha_t}}}\frac{\sqrt{\overline{\alpha}_{t-1}} \beta_{t}}{1-\overline{\alpha}_{t}}\sqrt{1-\overline{\alpha_t}}\epsilon\\
-&amp;=\frac{\sqrt{\alpha_{t}}(1-\overline{\alpha}_{t-1})}{1-\overline{\alpha}_{t}} x_{t}+\frac{\beta_{t}}{1-\overline{\alpha}_{t}}\frac{1}{\sqrt{\alpha_t}}x_t-\frac{\sqrt{\overline{\alpha}_{t-1}} \beta_{t}}{\sqrt{\overline{\alpha_t}}\sqrt{1-\overline{\alpha}_{t}}}\epsilon\\
+\Rightarrow
+x_0&amp;=\frac{1}{\sqrt{\overline{\alpha_t}}}(x_t-\sqrt{1-\overline{\alpha_t}}\epsilon)\\
+\tilde{\mu}(x_t,x_0)&amp;=\frac{\sqrt{\alpha_{t}}(1-\overline{\alpha}_{t-1})}{1-\overline{\alpha}_{t}}
+x_{t}+\frac{\sqrt{\overline{\alpha}_{t-1}}
+\beta_{t}}{1-\overline{\alpha}_{t}} x_{0}\\
+&amp;=\frac{\sqrt{\alpha_{t}}(1-\overline{\alpha}_{t-1})}{1-\overline{\alpha}_{t}}
+x_{t}+\frac{\sqrt{\overline{\alpha}_{t-1}}
+\beta_{t}}{1-\overline{\alpha}_{t}}\frac{1}{\sqrt{\overline{\alpha_t}}}(x_t-\sqrt{1-\overline{\alpha_t}}\epsilon)\\
+&amp;=\frac{\sqrt{\alpha_{t}}(1-\overline{\alpha}_{t-1})}{1-\overline{\alpha}_{t}}
+x_{t}+\frac{\sqrt{\overline{\alpha}_{t-1}}
+\beta_{t}}{1-\overline{\alpha}_{t}}\frac{1}{\sqrt{\overline{\alpha_t}}}x_t-\frac{1}{\sqrt{\overline{\alpha_t}}}\frac{\sqrt{\overline{\alpha}_{t-1}}
+\beta_{t}}{1-\overline{\alpha}_{t}}\sqrt{1-\overline{\alpha_t}}\epsilon\\
+&amp;=\frac{\sqrt{\alpha_{t}}(1-\overline{\alpha}_{t-1})}{1-\overline{\alpha}_{t}}
+x_{t}+\frac{\beta_{t}}{1-\overline{\alpha}_{t}}\frac{1}{\sqrt{\alpha_t}}x_t-\frac{\sqrt{\overline{\alpha}_{t-1}}
+\beta_{t}}{\sqrt{\overline{\alpha_t}}\sqrt{1-\overline{\alpha}_{t}}}\epsilon\\
 &amp;=\frac{1}{1-\overline{\alpha}_{t}}(\sqrt{\alpha_{t}}(1-\overline{\alpha}_{t-1})+\frac{\beta_{t}}{\sqrt{\alpha_t}})x_t-\frac{\beta_{t}}{\sqrt{\alpha_t}\sqrt{1-\overline{\alpha}_{t}}}\epsilon\\
 &amp;=\frac{1}{1-\overline{\alpha}_{t}}(\sqrt{\alpha_{t}}-\sqrt{\alpha_{t}}\overline{\alpha}_{t-1}+\frac{1-\alpha_{t}}{\sqrt{\alpha_t}})x_t-\frac{\beta_{t}}{\sqrt{\alpha_t}\sqrt{1-\overline{\alpha}_{t}}}\epsilon\\
 &amp;=\frac{1}{\sqrt{\alpha_{t}}(1-\overline{\alpha}_{t})}(\alpha_{t}-\overline{\alpha}_{t}+1-\alpha_{t})x_t-\frac{\beta_{t}}{\sqrt{\alpha_t}\sqrt{1-\overline{\alpha}_{t}}}\epsilon\\
@@ -420,23 +531,47 @@ x_t&amp;=\sqrt{\overline{\alpha_t}}x_0+\sqrt{1-\overline{\alpha_t}}\epsilon\\
 &amp;=\frac{1}{\sqrt{\alpha_{t}}}x_t-\frac{\beta_{t}}{\sqrt{\alpha_t}\sqrt{1-\overline{\alpha}_{t}}}\epsilon\\
 &amp;=\frac{1}{\sqrt{\alpha_{t}}}(x_t-\frac{\beta_{t}}{\sqrt{1-\overline{\alpha}_{t}}})\epsilon
 \end{aligned}
-\]</span> We use a MSE Loss to measure and minimise the distance of predict <span class="math inline">\(\mu_\theta\)</span> and actual <span class="math inline">\(\tilde\mu\)</span> <span class="math display">\[
-L_{t}=\frac{1}{2 \sigma_{t}^{2}}\left\|\tilde{\mu}_{t}\left(x_{t}, x_{0}\right)-\mu_{\theta}\left(x_{t}, t\right)\right\|^{2}=\frac{1}{2 \sigma_{t}^{2}}\left\|\frac{1}{\sqrt{\alpha_{t}}}\left(x_{t}-\frac{\beta_{t}}{\sqrt{1-\overline{\alpha}_{t}}} \epsilon\right)-\mu_{\theta}\left(x_{t}, t\right)\right\|^{2}
-\]</span> In <span class="math inline">\(\mu\)</span> there are two variable except for coefficients, in which <span class="math inline">\(x_t\)</span> is input and <span class="math inline">\(\epsilon\)</span> is noise component. We r]-write <span class="math inline">\(\mu_\theta\)</span> in similar form so that we can focus more on predicting noise. <span class="math display">\[
+\]</span> We use a MSE Loss to measure and minimise the distance of
+predict <span class="math inline">\(\mu_\theta\)</span> and actual <span
+class="math inline">\(\tilde\mu\)</span> <span class="math display">\[
+L_{t}=\frac{1}{2 \sigma_{t}^{2}}\left\|\tilde{\mu}_{t}\left(x_{t},
+x_{0}\right)-\mu_{\theta}\left(x_{t}, t\right)\right\|^{2}=\frac{1}{2
+\sigma_{t}^{2}}\left\|\frac{1}{\sqrt{\alpha_{t}}}\left(x_{t}-\frac{\beta_{t}}{\sqrt{1-\overline{\alpha}_{t}}}
+\epsilon\right)-\mu_{\theta}\left(x_{t}, t\right)\right\|^{2}
+\]</span> In <span class="math inline">\(\mu\)</span> there are two
+variable except for coefficients, in which <span
+class="math inline">\(x_t\)</span> is input and <span
+class="math inline">\(\epsilon\)</span> is noise component. We r]-write
+<span class="math inline">\(\mu_\theta\)</span> in similar form so that
+we can focus more on predicting noise. <span class="math display">\[
 \begin{aligned}
-L_t&amp;=\frac{1}{2 \sigma_{t}^{2}}\left\|\frac{1}{\sqrt{\alpha_{t}}}\left(x_{t}-\frac{\beta_{t}}{\sqrt{1-\overline{\alpha}_{t}}} \epsilon\right)-\frac{1}{\sqrt{\alpha_{t}}}\left(x_{t}-\frac{\beta_{t}}{\sqrt{1-\overline{\alpha}_{t}}} \epsilon_{\theta}\left(x_{t}, t\right)\right)\right\|^{2}\\
-&amp;=\frac{\beta_{t}^{2}}{2 \sigma_{t}^{2} \alpha_{t}\left(1-\hat{\alpha}_{t}\right)} \| \epsilon-\epsilon_{\theta}\left(x_{t}, t\right) \|^{2}
+L_t&amp;=\frac{1}{2
+\sigma_{t}^{2}}\left\|\frac{1}{\sqrt{\alpha_{t}}}\left(x_{t}-\frac{\beta_{t}}{\sqrt{1-\overline{\alpha}_{t}}}
+\epsilon\right)-\frac{1}{\sqrt{\alpha_{t}}}\left(x_{t}-\frac{\beta_{t}}{\sqrt{1-\overline{\alpha}_{t}}}
+\epsilon_{\theta}\left(x_{t}, t\right)\right)\right\|^{2}\\
+&amp;=\frac{\beta_{t}^{2}}{2 \sigma_{t}^{2}
+\alpha_{t}\left(1-\hat{\alpha}_{t}\right)} \|
+\epsilon-\epsilon_{\theta}\left(x_{t}, t\right) \|^{2}
 \end{aligned}
-\]</span> The coefficient before <span class="math inline">\(L2\)</span> distance can be simply neglected since it would not affect training.</p>
-<p>Get back to real loss function we were talking about. Now it is equivalent to <span class="math display">\[
-L_{VLB}=\sum_{t=2}^{T} D_{K L}(q(x_{t-1} | x_{t}, x_{0}) || p_{\theta}(x_{t-1} | x_{t}))-\log (p_{\theta}(x_{0} | x_{1}))\sim\|\epsilon-\epsilon_{\theta}(x_{t}, t)\|^{2}-\log (p_{\theta}(x_{0} | x_{1}))
-\]</span> The last term can also be neglected and use a network to predict. Reason behind it won't be detailed in this article. The reader is refereed to origin video and paper to find more information.</p>
+\]</span> The coefficient before <span class="math inline">\(L2\)</span>
+distance can be simply neglected since it would not affect training.</p>
+<p>Get back to real loss function we were talking about. Now it is
+equivalent to <span class="math display">\[
+L_{VLB}=\sum_{t=2}^{T} D_{K L}(q(x_{t-1} | x_{t}, x_{0}) ||
+p_{\theta}(x_{t-1} | x_{t}))-\log (p_{\theta}(x_{0} |
+x_{1}))\sim\|\epsilon-\epsilon_{\theta}(x_{t}, t)\|^{2}-\log
+(p_{\theta}(x_{0} | x_{1}))
+\]</span> The last term can also be neglected and use a network to
+predict. Reason behind it won't be detailed in this article. The reader
+is refereed to origin video and paper to find more information.</p>
 <p>The final loss is <span class="math display">\[
 L=\|\epsilon-\epsilon_{\theta}(x_{t}, t)\|^{2}
 \]</span></p>
 <h2 id="algorithm-description">5. Algorithm Description</h2>
-<p><img src="/images/2022-09-27-Mathematic%20behind%20Diffusion%20Model/training-algorithm.png" srcset="/img/loading.gif" lazyload /></p>
-<p><img src="/images/2022-09-27-Mathematic%20behind%20Diffusion%20Model/sampling-algorithm.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="/images/2022-09-27-Mathematic%20behind%20Diffusion%20Model/training-algorithm.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="/images/2022-09-27-Mathematic%20behind%20Diffusion%20Model/sampling-algorithm.png" srcset="/img/loading.gif" lazyload /></p>
 
                 
               </div>
