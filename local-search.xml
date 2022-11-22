@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>SSH and Git Authentication Configuration</title>
+    <link href="/2022/11/22/2022-11-22-SSH%20and%20Git%20Authentication%20Configuration/"/>
+    <url>/2022/11/22/2022-11-22-SSH%20and%20Git%20Authentication%20Configuration/</url>
+    
+    <content type="html"><![CDATA[<p>This is a guide to set up SSH and Git (especially Github) access.</p><h2 id="generate-ssh-key-pair">1. Generate SSH key pair</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># Or with an optional flag -C &quot;email_address&quot;</span><br>ssh-keygen<br></code></pre></td></tr></table></figure><p>This will generate a pair of keys (private and public) to given filename. Usually <code>id_rsa</code> and <code>id_rsa.pub</code>, but youcan choose your own file name.</p><h2 id="ssh-with-identity-file">2. SSH with Identity File</h2><p>Put the public key <code>id_rsa.pub</code> into <code>~/.ssh</code>and add it into <code>authorized_keys</code>.</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> id_rsa.pub &gt; authorized_keys<br></code></pre></td></tr></table></figure><p>And the client should be able to use the private key to get SSHaccess.</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh user@host -p port -i identity_file<br></code></pre></td></tr></table></figure><p>Or further configure the SSH config file in <code>~/.ssh</code> onclient side to make it default.</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">Host A-Label-To-Identify-Host<br>  HostName Host-Name-Or-IP<br>  User User-Name<br>  Port Port-Number<br>  IdentityFile Path-To-Identity-File<br></code></pre></td></tr></table></figure><p>Now you can gain access without password, or with a shorter commandas follow:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh A-Label-To-Identify-Host<br></code></pre></td></tr></table></figure><h2 id="github-with-identity-file">3. Github with Identity File</h2><p>Copy the public key to Github Setting &gt; SSH and GPG Keys &gt; SSHkeys &gt; New SSH Key</p><p>And test your key pair use following command</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># if you didn&#x27;t chaneg identity file name and path during generation </span><br><span class="hljs-comment"># -i will not be needed</span><br>ssh -T git@github.com -i identity_file<br></code></pre></td></tr></table></figure><p>If you want to add multiple SSH key pairs on identical Git site, thenedit <code>~/.ssh/config</code> as follow:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">Host Another-Identifier<br>  HostName Git-Site-Name-Like-github.com<br>  User git<br>  IdentityFile Path-To-Identity-File<br></code></pre></td></tr></table></figure><p>This key will be used when a local git Repo gets a remote addresswith a prefix like <code>git@Another-Identifier:</code></p><h2 id="github-with-token">4. Github with Token</h2><p>It is a rather dangerous and unsafe way to gain access.</p><p>Generate a token from Github Setting &gt; Developer settings &gt;Personal Access Tokens &gt; Tokens (classic).</p><p>Now you should gain Github access with remote as<code>https://oauth2:Your_Token_Here@github.com/User_Name/Repo_Name</code></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Guide</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Dislocker - A Bitlock solution on Linux</title>
     <link href="/2022/11/21/2022-11-21-Dislocker%20-%20A%20Bitlock%20solution%20on%20Linux/"/>
     <url>/2022/11/21/2022-11-21-Dislocker%20-%20A%20Bitlock%20solution%20on%20Linux/</url>
