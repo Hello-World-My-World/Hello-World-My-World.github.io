@@ -1,0 +1,747 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Doctor">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="二分查找 基础（Leetcode704. 二分查找） 最基本的二分查找：找到值返回下标，没有找到返回-1 基本原则，已经验证过的m，不再在新的子问题区间中出现。搜索结束的区间条件是区间内不含有值，只可能因为i,j据m更新索引导致。  左闭右开区间[i,j) 12345678910111213class Solution:    def search(self, nums: List[i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码随想录-数组">
+<meta property="og:url" content="http://hello-world-my-world.github.io/2023/03/22/Algo_and_DS/2023-03-22-%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-%E6%95%B0%E7%BB%84/index.html">
+<meta property="og:site_name" content="Hello-World-My-World">
+<meta property="og:description" content="二分查找 基础（Leetcode704. 二分查找） 最基本的二分查找：找到值返回下标，没有找到返回-1 基本原则，已经验证过的m，不再在新的子问题区间中出现。搜索结束的区间条件是区间内不含有值，只可能因为i,j据m更新索引导致。  左闭右开区间[i,j) 12345678910111213class Solution:    def search(self, nums: List[i">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-22T15:55:00.000Z">
+<meta property="article:modified_time" content="2023-09-07T05:17:05.134Z">
+<meta property="article:author" content="Doctor">
+<meta property="article:tag" content="Algo&amp;DS">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>代码随想录-数组 - Hello-World-My-World</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"hello-world-my-world.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Hello World! This is my world.</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="代码随想录-数组"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-22 23:55" pubdate>
+          March 22, 2023 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">代码随想录-数组</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="二分查找">二分查找</h2>
+<h3 id="基础leetcode704.-二分查找">基础（Leetcode704. 二分查找）</h3>
+<p>最基本的二分查找：找到值返回下标，没有找到返回-1</p>
+<p>基本原则，已经验证过的m，不再在新的子问题区间中出现。搜索结束的区间条件是区间内不含有值，只可能因为i,j据m更新索引导致。</p>
+<ul>
+<li><p>左闭右开区间[i,j)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">self, nums: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>], target: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:<br>        i, j = <span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(nums)<br>        <span class="hljs-comment"># [i, j) | [i, j-1]  </span><br>        <span class="hljs-keyword">while</span> i &lt; j:<br>            m = (i + j) // <span class="hljs-number">2</span><br>            <span class="hljs-keyword">if</span> nums[m] == target:<br>                <span class="hljs-keyword">return</span> m<br>            <span class="hljs-keyword">elif</span> nums[m] &gt;  target:<br>                j = m<br>            <span class="hljs-keyword">else</span>:<br>                i = m + <span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure></li>
+<li><p>闭区间[i,j]</p></li>
+<li><p>开区间(i,j)</p></li>
+</ul>
+<h3
+id="查找插入值位置leetcode35.-搜索插入位置">查找插入值位置（Leetcode35.
+搜索插入位置）</h3>
+<p>若存在该值，返回第一个出现的该值的索引；若不存在该值，则返回的是大于该值的第一个下标索引。</p>
+<p>也就是返回有序数组中第一个大于等于改值的索引。</p>
+<p>e.g.: searchInsert([5, 7, 7, 8, 8, 10], 8),
+以闭区间为例（下划线为区间索引，删除线为m）</p>
+<p>[<u>5i</u>, 7, <del>7</del>, 8, 8, <u>10j</u>]
+取得位于中间的值，待搜索的值[3]在右半区间</p>
+<p>[5, 7, 7, <u>8i</u>, <del>8</del>, <u>10j</u>]
+取得位于中间的值等于target，右半区间必然全大于等于target，搜索左半区间</p>
+<p>[5, 7, 7, <u><del>8</del>ij</u>, 8, 10] 搜索区间下标重合于[3]</p>
+<p>[5, 7, <u>7j</u>, <u>8i</u>, 8, 10] 搜索区间下标反序，退出循环</p>
+<p><strong>循环不变量</strong>（闭区间为例）：</p>
+<p>i-1==j指向的必然是小于target的最后一个值</p>
+<p>j+1==i指向的必然是大于等于target的第一个值</p>
+<ul>
+<li><p>若是左闭右开区间</p>
+<p>i-1==j-1指向的必然是小于target的最后一个值</p>
+<p>j==i指向的必然是大于等于target的第一个值</p></li>
+<li><p>若是开区间</p>
+<p>i==j-1指向的必然是小于target的最后一个值</p>
+<p>j==i+1指向的必然是大于等于target的第一个值</p></li>
+</ul>
+<p>循环不变量在不同区间定义下的关系与包含端点的情况有关：</p>
+<ul>
+<li>左闭右开区间和闭区间的左端点定义一致，i表示的循环不变量一致</li>
+<li>左闭右开区间和开区间的右端点定义一致，j表示的循环不变量一致</li>
+</ul>
+<p>闭区间写法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">searchInsert</span>(<span class="hljs-params">self, nums: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>], target: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:<br>        i, j = <span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(nums) - <span class="hljs-number">1</span><br>        <span class="hljs-comment"># [i, j]</span><br>        <span class="hljs-keyword">while</span> i &lt;= j:<br>            m = (i + j) // <span class="hljs-number">2</span><br>            <span class="hljs-keyword">if</span> nums[m] &lt; target:<br>                i = m + <span class="hljs-number">1</span><br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-comment"># first one must be on the left-half side</span><br>                <span class="hljs-comment"># move to left if it is equal to target</span><br>                j = m - <span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> i<br></code></pre></td></tr></table></figure>
+<p>类似的，有左闭右开区间的写法:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">searchInsert</span>(<span class="hljs-params">self, nums: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>], target: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:<br>        i, j = <span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(nums)<br>        <span class="hljs-comment"># [i, j)</span><br>        <span class="hljs-keyword">while</span> i &lt; j:<br>            m = (i + j) // <span class="hljs-number">2</span><br>            <span class="hljs-keyword">if</span> nums[m] &lt; target:<br>                i = m + <span class="hljs-number">1</span><br>            <span class="hljs-keyword">else</span>:<br>                j = m<br>        <span class="hljs-keyword">return</span> j<br></code></pre></td></tr></table></figure>
+<p>和开区间的写法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">searchInsert</span>(<span class="hljs-params">self, nums: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>], target: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:<br>        i, j = -<span class="hljs-number">1</span>, <span class="hljs-built_in">len</span>(nums)<br>        <span class="hljs-comment"># (i, j)</span><br>        <span class="hljs-keyword">while</span> j - i &gt; <span class="hljs-number">1</span>:<br>            m = (i + j) // <span class="hljs-number">2</span><br>            <span class="hljs-keyword">if</span> nums[m] &lt; target:<br>                i = m<br>            <span class="hljs-keyword">else</span>:<br>                j = m<br>        <span class="hljs-comment"># or return j </span><br>        <span class="hljs-keyword">return</span> i + <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<p>本题是搜索<strong>大于等于</strong>target的情况，在整数范围内其他大小关系可以相互转换：</p>
+<p>大于target == 大于等于target+1</p>
+<p>小于target == （大于等于target）-1 结果左侧的数</p>
+<p>小于等于target == （大于等于target+1）-1</p>
+<p>类似地，如果遇到相同值搜索右半区间，则可以检索最后一个出现的位置。</p>
+<p>Leetcode. {34, 69}</p>
+<h3 id="快慢指针-leetcode27.-移除元素">快慢指针 (Leetcode27.
+移除元素)</h3>
+<p>在一个数组中原地将不等于val的元素移到数组头，返回长度。</p>
+<p>快指针判断是否需要移除，不移除的元素复制到慢指针处。</p>
+<p>Leetcode. {26, 283, <u>844</u>, 977, 80}</p>
+<h3 id="双指针法leetcode977.-有序数组的平方">双指针法（Leetcode977.
+有序数组的平方）</h3>
+<p>快慢指针是一种双指针法</p>
+<h3 id="滑动窗口leetcode209.-长度最小的子数组">滑动窗口（Leetcode209.
+长度最小的子数组）</h3>
+<p>滑动窗口可以视作一种双指针法</p>
+<p>Leetcode. {904, 76}</p>
+<h3 id="模拟leetcode59.-螺旋矩阵ii">模拟（Leetcode59. 螺旋矩阵II）</h3>
+<p>Leetcode. {54}</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Algo-DS/">#Algo&DS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>代码随想录-数组</div>
+      <div>http://hello-world-my-world.github.io/2023/03/22/Algo_and_DS/2023-03-22-代码随想录-数组/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Doctor</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 22, 2023</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - Non-commercial">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - No derivative works">
+                    <i class="iconfont icon-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/27/Algo_and_DS/2023-03-27-%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-%E8%B4%AA%E5%BF%83/" title="代码随想录-贪心">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">代码随想录-贪心</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/04/Algo_and_DS/2023-03-04-%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AD%90%E9%9B%86%E5%90%88%E6%9E%9A%E4%B8%BE/" title="二进制子集枚举">
+                        <span class="hidden-mobile">二进制子集枚举</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

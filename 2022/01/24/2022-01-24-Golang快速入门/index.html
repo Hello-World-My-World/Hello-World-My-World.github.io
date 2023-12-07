@@ -1,0 +1,942 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Doctor">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="@ 2022.01.24 14:31 UTC+0800 v1  这是一篇面向有一定编程基础者的Golang快速入门指南，涵盖Golang的基本语法，面向过程，面向对象，并发等基础知识。  推荐：Golang语言教程 by 李文周  1. 变量、常量与iota 1.1 变量 Golang的变量需要先声明后使用，具体地有， 123456789101112131415161718">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang快速入门">
+<meta property="og:url" content="http://hello-world-my-world.github.io/2022/01/24/2022-01-24-Golang%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="Hello-World-My-World">
+<meta property="og:description" content="@ 2022.01.24 14:31 UTC+0800 v1  这是一篇面向有一定编程基础者的Golang快速入门指南，涵盖Golang的基本语法，面向过程，面向对象，并发等基础知识。  推荐：Golang语言教程 by 李文周  1. 变量、常量与iota 1.1 变量 Golang的变量需要先声明后使用，具体地有， 123456789101112131415161718">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-01-24T06:31:00.000Z">
+<meta property="article:modified_time" content="2023-09-17T03:58:35.973Z">
+<meta property="article:author" content="Doctor">
+<meta property="article:tag" content="Language">
+<meta property="article:tag" content="Golang">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Golang快速入门 - Hello-World-My-World</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"hello-world-my-world.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Hello World! This is my world.</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Golang快速入门"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-01-24 14:31" pubdate>
+          January 24, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          19k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          161 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Golang快速入门</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>@ 2022.01.24 14:31 UTC+0800 v1</p>
+</blockquote>
+<p>这是一篇面向有一定编程基础者的Golang快速入门指南，涵盖Golang的基本语法，面向过程，面向对象，并发等基础知识。</p>
+<blockquote>
+<p>推荐：<a
+target="_blank" rel="noopener" href="https://www.liwenzhou.com/posts/Go/golang-menu/">Golang语言教程 by
+李文周</a></p>
+</blockquote>
+<h3 id="变量常量与iota">1. 变量、常量与iota</h3>
+<h4 id="变量">1.1 变量</h4>
+<p>Golang的变量需要先声明后使用，具体地有，</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 声明一个类型为typeName的变量variableName</span><br><span class="hljs-keyword">var</span> variableName typeName<br><br><span class="hljs-comment">// 声明一个类型为int的变量num并赋初值为1</span><br><span class="hljs-keyword">var</span> num <span class="hljs-type">int</span> = <span class="hljs-number">1</span><br><br><span class="hljs-comment">// 声明两个类型为int的变量m, n并赋初值</span><br><span class="hljs-keyword">var</span> m, n <span class="hljs-type">int</span> = <span class="hljs-number">1</span>, <span class="hljs-number">2</span><br><br><span class="hljs-comment">// 声明两个变量并赋初值</span><br><span class="hljs-keyword">var</span> name, age = <span class="hljs-string">&quot;ZhangSan&quot;</span>, <span class="hljs-number">20</span><br><br><span class="hljs-comment">// 批量声明变量</span><br><span class="hljs-keyword">var</span> (<br>    a <span class="hljs-type">string</span><br>    b <span class="hljs-type">int</span><br>)<br><br><span class="hljs-comment">// Golang在给定初值时支持省略变量类型由编译器自动推导</span><br><span class="hljs-keyword">var</span> n = <span class="hljs-number">10</span><br><br><span class="hljs-comment">// 在函数体内可以使用象牙运算符对变量进行短声明</span><br><span class="hljs-comment">// 注意不可用于全局变量的声明</span><br>n := <span class="hljs-number">10</span><br><br><span class="hljs-comment">// 匿名变量仅用于给不需要的数据占位，不存在重复声明，不占用命名空间，不会分配内存</span><br><span class="hljs-comment">// 匿名变量为下划线: _</span><br></code></pre></td></tr></table></figure>
+<h4 id="常量与iota">1.2 常量与iota</h4>
+<p>常量不能更改，在声明的时候必须赋常量计算得到的值。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 常量声明</span><br><span class="hljs-keyword">const</span> pi = <span class="hljs-number">3.14</span><br><br><span class="hljs-comment">// 声明多个常量</span><br><span class="hljs-comment">// 省略处表示与上行的计算式相同</span><br><span class="hljs-keyword">const</span> (<br>    pi = <span class="hljs-number">3.14</span><br>    e = <span class="hljs-number">2.718</span><br>    s<br>)<br><br><span class="hljs-comment">// iota是行计数器，只能在const声明时使用</span><br><span class="hljs-comment">// 每次出现const的时候重置为0，每声明一个常量+1</span><br><span class="hljs-keyword">const</span> (<br>		n1 = <span class="hljs-literal">iota</span> <span class="hljs-comment">//0</span><br>		n2 = <span class="hljs-number">100</span>  <span class="hljs-comment">//100</span><br>		n3 = <span class="hljs-literal">iota</span> <span class="hljs-comment">//2</span><br>		n4        <span class="hljs-comment">//3</span><br>	)<br><span class="hljs-keyword">const</span> n5 = <span class="hljs-literal">iota</span>	<span class="hljs-comment">//0</span><br></code></pre></td></tr></table></figure>
+<h3 id="基本数据类型">2. 基本数据类型</h3>
+<h4 id="整型">2.1 整型</h4>
+<table>
+<thead>
+<tr class="header">
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>uint8</td>
+<td>无符号8位整型: 0~2^8-1</td>
+</tr>
+<tr class="even">
+<td>uint16</td>
+<td>无符号8位整型: 0~2^16-1</td>
+</tr>
+<tr class="odd">
+<td>uint32</td>
+<td>无符号8位整型: 0~2^32-1</td>
+</tr>
+<tr class="even">
+<td>uint64</td>
+<td>无符号8位整型: 0~2^64-1</td>
+</tr>
+<tr class="odd">
+<td>uint</td>
+<td>按系统位数决定32/64</td>
+</tr>
+<tr class="even">
+<td>int8</td>
+<td>有符号8位整型: -2<sup>7~2</sup>7-1</td>
+</tr>
+<tr class="odd">
+<td>int16</td>
+<td>有符号16位整型: -2<sup>15~2</sup>15-1</td>
+</tr>
+<tr class="even">
+<td>int32</td>
+<td>有符号32位整型: -2<sup>31~2</sup>31-1</td>
+</tr>
+<tr class="odd">
+<td>int64</td>
+<td>有符号64位整型: -2<sup>63~2</sup>63-1</td>
+</tr>
+<tr class="even">
+<td>int</td>
+<td>按系统位数决定32/64</td>
+</tr>
+<tr class="odd">
+<td>uintptr</td>
+<td>用于存放指针的无符号整型</td>
+</tr>
+</tbody>
+</table>
+<h4 id="数字字面量语法">2.2 数字字面量语法</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 字面量二进制</span><br><span class="hljs-keyword">var</span> n := <span class="hljs-number">0</span>b110<br><br><span class="hljs-comment">// 字面量八进制</span><br><span class="hljs-keyword">var</span> n := <span class="hljs-number">032</span><br><span class="hljs-keyword">var</span> n := <span class="hljs-number">0</span>o32<br><br><span class="hljs-comment">// 字面量十六进制</span><br><span class="hljs-keyword">var</span> n := <span class="hljs-number">0x32</span><br><br><span class="hljs-comment">// 字面量十六进制带次方</span><br><span class="hljs-keyword">var</span> n := <span class="hljs-number">0x1</span>p<span class="hljs-number">-2</span>	<span class="hljs-comment">// 1/2^2 = 0.25</span><br><br><span class="hljs-comment">// 字面量下划线分隔</span><br><span class="hljs-keyword">var</span> n := <span class="hljs-number">123</span>_456<br><br><span class="hljs-comment">// 整型量的格式化输出</span><br><span class="hljs-comment">// 十进制格式化输出</span><br>fmt.Printf(<span class="hljs-string">&quot;%d&quot;</span>, n)<br><br><span class="hljs-comment">// 二进制格式化输出</span><br>fmt.Printf(<span class="hljs-string">&quot;%b&quot;</span>, n)<br><br><span class="hljs-comment">// 八进制格式化输出</span><br>fmt.Printf(<span class="hljs-string">&quot;%o&quot;</span>, n)<br> <br><span class="hljs-comment">// 十六进制格式化输出</span><br>fmt.Printf(<span class="hljs-string">&quot;%x&quot;</span>, n)	<span class="hljs-comment">// 小写十六进制</span><br>fmt.Printf(<span class="hljs-string">&quot;%X&quot;</span>, n)	<span class="hljs-comment">// 大写十六进制</span><br></code></pre></td></tr></table></figure>
+<h4 id="复数">2.3 复数</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> c1 <span class="hljs-type">complex64</span> = <span class="hljs-number">1</span> + <span class="hljs-number">1i</span><br><span class="hljs-keyword">var</span> c2 <span class="hljs-type">complex128</span><br></code></pre></td></tr></table></figure>
+<h4 id="布尔值">2.4 布尔值</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> b1 <span class="hljs-type">bool</span> = <span class="hljs-literal">true</span><br><span class="hljs-keyword">var</span> b2 <span class="hljs-type">bool</span> = <span class="hljs-literal">false</span><br></code></pre></td></tr></table></figure>
+<h4 id="浮点数">2.5 浮点数</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> f1 <span class="hljs-type">float32</span> = <span class="hljs-number">3e2</span><br><span class="hljs-keyword">var</span> f2 <span class="hljs-type">float64</span> = <span class="hljs-number">0.001</span><br>fmt.Printf(<span class="hljs-string">&quot;%.2f&quot;</span>, f1)<br></code></pre></td></tr></table></figure>
+<h4 id="字符">2.6 字符</h4>
+<p>Golang使用两种类型描述字符。</p>
+<ul>
+<li><code>byte</code>
+(<code>uint8</code>)类型，表示<code>ASCII</code>码字符</li>
+<li><code>rune</code>
+(<code>int32</code>)类型，表示<code>UTF-8</code>字符，由一个或者多个<code>byte</code>构成</li>
+</ul>
+<h4 id="字符数组">2.7 字符数组</h4>
+<p>Golang可以使用<code>[]byte</code>或<code>[]rune</code>的数组表示字符串。</p>
+<h4 id="字符串">2.8 字符串</h4>
+<p>Golang提供<code>string</code>类型保存字符串，字符串的底层为<code>[]byte</code>数组，对字符串的直接索引会返回<code>byte</code>结果，<code>len</code>返回的是<code>byte</code>的长度。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 单行字符串字面量</span><br>str := <span class="hljs-string">&quot;HelloWorld&quot;</span><br><br><span class="hljs-comment">// 多行字符串字面量，不处理转义字符，也可以用在单行</span><br>str := <span class="hljs-string">`</span><br><span class="hljs-string">line0</span><br><span class="hljs-string">line1</span><br><span class="hljs-string">`</span><br>str := <span class="hljs-string">`\n`</span>	<span class="hljs-comment">//打印输出\n</span><br><br><span class="hljs-comment">// 常见的字符串相关操作</span><br><span class="hljs-comment">// 按byte (ASCII码) 计算长度</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">len</span><span class="hljs-params">(<span class="hljs-type">string</span> str)</span></span> (<span class="hljs-type">int</span>)<br><br><span class="hljs-comment">// 按rune (UTF-8码) 计算长度</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">utf8</span>.<span class="hljs-title">RuneCountInString</span><span class="hljs-params">(s <span class="hljs-type">string</span>)</span></span> (<span class="hljs-type">int</span>)<br><br><span class="hljs-comment">// 分割字符串</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">strings</span>.<span class="hljs-title">Split</span><span class="hljs-params">(s, sep <span class="hljs-type">string</span>)</span></span> ([]<span class="hljs-type">string</span>)<br><br><span class="hljs-comment">// 拼接字符串</span><br>str := str1 + str2<br><br><span class="hljs-comment">// 格式化字符串</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">fmt</span>.<span class="hljs-title">Sprintf</span><span class="hljs-params">(format <span class="hljs-type">string</span>, a ...<span class="hljs-keyword">interface</span>&#123;&#125;)</span></span> <span class="hljs-type">string</span><br><br><span class="hljs-comment">// 判断包含</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">strings</span>.<span class="hljs-title">Contains</span><span class="hljs-params">(s, substr <span class="hljs-type">string</span>)</span></span> <span class="hljs-type">bool</span> <br><br><span class="hljs-comment">// 前缀/后缀判断</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">HasPrefix</span><span class="hljs-params">(s, prefix <span class="hljs-type">string</span>)</span></span> <span class="hljs-type">bool</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">HasSuffix</span><span class="hljs-params">(s, suffix <span class="hljs-type">string</span>)</span></span> <span class="hljs-type">bool</span><br><br><span class="hljs-comment">// 判断子串出现位置</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Index</span><span class="hljs-params">(s, substr <span class="hljs-type">string</span>)</span></span> <span class="hljs-type">int</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">LastIndex</span><span class="hljs-params">(s, substr <span class="hljs-type">string</span>)</span></span> <span class="hljs-type">int</span> <br><br><span class="hljs-comment">//字符串join</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">strings</span>.<span class="hljs-title">Join</span><span class="hljs-params">(a[]<span class="hljs-type">string</span>, sep <span class="hljs-type">string</span>)</span></span><br></code></pre></td></tr></table></figure>
+<h3 id="数组">3. 数组</h3>
+<p>数组是一种相同数据类型元素的集合，在声明时确定大小，使用时可以访问、
+修改元素，但不可更改大小。数组是值类型，赋值和传参会复制整个数组。因此改变副本的值，不会改变本身的值。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> variableName [size]Type<br><br><span class="hljs-comment">// 定义长度为5的int数组numArray</span><br><span class="hljs-keyword">var</span> numArray [<span class="hljs-number">5</span>]<span class="hljs-type">int</span><br><br><span class="hljs-comment">// 使用指定的元素初始化</span><br><span class="hljs-keyword">var</span> numArray = [<span class="hljs-number">3</span>]<span class="hljs-type">int</span>&#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>&#125;<br><br><span class="hljs-comment">// 省略数组长度由编译器自主推导</span><br><span class="hljs-keyword">var</span> numArray = [...]<span class="hljs-type">int</span>&#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>&#125;<br><br><span class="hljs-comment">// 指定下标进行初始化</span><br>numArray := [...]<span class="hljs-type">int</span>&#123;<span class="hljs-number">1</span>: <span class="hljs-number">1</span>, <span class="hljs-number">3</span>: <span class="hljs-number">5</span>&#125;<br><br><span class="hljs-comment">// 高维数组，只有第一层的长度允许由编译器推导</span><br><span class="hljs-keyword">var</span> numArray [<span class="hljs-number">3</span>][<span class="hljs-number">3</span>]<span class="hljs-type">int</span><br><br><span class="hljs-comment">// 数组的遍历</span><br><span class="hljs-comment">// 依据下标遍历</span><br><span class="hljs-keyword">for</span>(i:=<span class="hljs-number">0</span>; i&lt;<span class="hljs-built_in">len</span>(numArray); i++)&#123;<br>    numArray[i] = <span class="hljs-number">0</span><br>&#125;<br><br><span class="hljs-comment">// 依据元素遍历</span><br><span class="hljs-keyword">for</span> _, item := <span class="hljs-keyword">range</span> numArray&#123;<br>    fmt.Println(item)<br>&#125;<br><br><span class="hljs-comment">// 数组间支持等于逻辑判断</span><br>numArray == numArray<br>numArray != numArray<br></code></pre></td></tr></table></figure>
+<h3 id="切片">4. 切片</h3>
+<p>切片是一种可变长度的同类型数据的集合，具有长度与容量，可以自动扩容。</p>
+<p>切片属于引用类型，直接作为参数传入函数时，对切片参数的修改会传出函数，但特别地，若函数内操作导致扩容，则扩容和以后的视作值传递，不传出函数。</p>
+<p>切片从其他数组/切片上切下时，与原数据结构共享内存。</p>
+<p>切片的零值是<code>nil</code>，没有初始化时只支持<code>append</code>，<code>len</code>，<code>cap</code>等操作。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 声明一个切片</span><br><span class="hljs-keyword">var</span> sliceName []Type<br><br><span class="hljs-comment">// 使用make函数</span><br><span class="hljs-keyword">var</span> sliceName []Type = <span class="hljs-built_in">make</span>([]Type, <span class="hljs-built_in">len</span>, <span class="hljs-built_in">cap</span>)<br><br><span class="hljs-comment">// 从数组切片</span><br><span class="hljs-keyword">var</span> sliceName []Type = someArray[low:high]<br><br><span class="hljs-comment">// 通用切片表达式</span><br><span class="hljs-comment">// low &lt;= high &lt;= max</span><br><span class="hljs-comment">// max为新切片的最大容量，对新切片的操作超过此限制时与原切片共享内存</span><br><span class="hljs-comment">// 超过后重新分配内存</span><br><span class="hljs-keyword">var</span> sliceName []Type = someArray[low:high:max]<br><br><span class="hljs-comment">// 浅拷贝共享内存</span><br><span class="hljs-keyword">var</span> sliceName []Type = oldSlice[:]<br><br><span class="hljs-comment">// 深拷贝分离内存</span><br><span class="hljs-keyword">var</span> dstSlice []Type = <span class="hljs-built_in">make</span>([]Type, <span class="hljs-built_in">len</span>(srcSlice))<br><span class="hljs-built_in">copy</span>(dstSlice, srcSlice)<br><br><span class="hljs-comment">// 增加元素 注意超出容量引起内存重新分配导致值传递</span><br>sliceName = <span class="hljs-built_in">append</span>(sliceName, newElement)<br><br><span class="hljs-comment">// 删除元素</span><br>sliceName = <span class="hljs-built_in">append</span>(sliceName[:i], sliceName[i+<span class="hljs-number">1</span>:]...)<br><br><span class="hljs-comment">// 与数组遍历类似，略</span><br></code></pre></td></tr></table></figure>
+<h3 id="字典">5. 字典</h3>
+<p><code>Map</code>(字典)提供从一种数据类型向另一种数据类型的无序映射关系，其底层使用<code>Hash</code>实现。</p>
+<p><code>Map</code>属于引用类型，函数内修改<code>Map</code>参数会传递出函数。</p>
+<p><code>Map</code>的零值为<code>nil</code>，须初始化才能使用。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 声明一个Map</span><br><span class="hljs-keyword">var</span> mapName <span class="hljs-keyword">map</span>[KeyType]ValueType<br><br><span class="hljs-comment">// 使用make初始化Map，其中容量cap可选</span><br><span class="hljs-keyword">var</span> mapName <span class="hljs-keyword">map</span>[KeyType]ValueType = <span class="hljs-built_in">make</span>([KeyType]ValueType, <span class="hljs-built_in">cap</span>)<br><br><span class="hljs-comment">// 使用字面量初始化</span><br><span class="hljs-keyword">var</span> mapName <span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-type">int</span> = <span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-type">int</span>&#123;<span class="hljs-string">&quot;a&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;b&quot;</span>: <span class="hljs-number">1</span>&#125;<br><br><span class="hljs-comment">// 字典取值与判断键是否存在</span><br><span class="hljs-comment">// ok == true 返回值，否则返回值类型的零值</span><br>value, ok := mapName[key]<br><br><span class="hljs-comment">// 遍历</span><br><span class="hljs-keyword">for</span> key, value := <span class="hljs-keyword">range</span> mapName &#123;<br>		fmt.Println(key, value)<br>&#125;<br><br><span class="hljs-comment">// 只需要键的遍历</span><br><span class="hljs-keyword">for</span> key := <span class="hljs-keyword">range</span> mapName &#123;<br>		fmt.Println(key, value)<br>&#125;<br><br><span class="hljs-comment">// 删除键值对，不返回</span><br><span class="hljs-built_in">delete</span>(mapName, key)<br></code></pre></td></tr></table></figure>
+<h3 id="流程控制">6. 流程控制</h3>
+<p><code>if</code>语句</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">if</span> cond0&#123;<br>    branch0<br>&#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> cond1&#123;<br>    branch1<br>&#125;<span class="hljs-keyword">else</span>&#123;<br>    branch2<br>&#125;<br><br><span class="hljs-comment">// 特殊地，可先声明变量赋一次值，该变量作用域只限制于该if块</span><br><span class="hljs-keyword">if</span> score := <span class="hljs-number">65</span>; score &gt;= <span class="hljs-number">90</span> &#123;<br>    fmt.Println(<span class="hljs-string">&quot;A&quot;</span>)<br>&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> score &gt; <span class="hljs-number">75</span> &#123;<br>    fmt.Println(<span class="hljs-string">&quot;B&quot;</span>)<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>    fmt.Println(<span class="hljs-string">&quot;C&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>for</code>语句</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 三个语句均可省略，但分号不能省略</span><br><span class="hljs-keyword">for</span> initialisation; endCond; stepAction&#123;<br>    block<br>&#125;<br><br><span class="hljs-comment">// while风格</span><br><span class="hljs-keyword">for</span> endCond&#123;<br>	block   <br>&#125;<br><br><span class="hljs-comment">// 死循环</span><br><span class="hljs-keyword">for</span> &#123;<br>    <br>&#125;<br><br><span class="hljs-comment">// 可用break、goto、return、panic强制退出，continue结束本轮循环</span><br><span class="hljs-keyword">for</span> &#123;<br>    <span class="hljs-keyword">if</span> something&#123;<br>        <span class="hljs-keyword">goto</span> getOut<br>    &#125;<br>&#125;<br>getOut:<br>exitCode<br></code></pre></td></tr></table></figure>
+<p><code>switch</code>语句</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 各个分支默认带break，可用fallthrough进入下一个case</span><br><span class="hljs-keyword">switch</span> value&#123;<br>	<span class="hljs-keyword">case</span> matchCase0:<br>    	branch0<br>	<span class="hljs-keyword">case</span> matchCase1:<br>    	branch1<br>    	<span class="hljs-keyword">fallthrough</span><br>    <span class="hljs-keyword">default</span>:<br>    	defaultBranch<br>&#125;<br><br><span class="hljs-comment">// value可以省略表示true，在case后跟条件表达式，模拟if-elseif-else</span><br><span class="hljs-comment">// 类似if，可先声明变量赋一次值，该变量作用域只限制于该switch块</span><br></code></pre></td></tr></table></figure>
+<p>其他的有<code>goto</code>，<code>break</code>，<code>continue</code>等，略过。</p>
+<p><code>goto</code>语句</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// goto 只能在函数内跳转</span><br><span class="hljs-comment">// goto 不能跳过内部变量声明</span><br><span class="hljs-comment">// goto 只能跳到同作用域或上级作用域</span><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">goto_tags</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">if</span> <span class="hljs-literal">true</span> &#123;<br>		<span class="hljs-keyword">goto</span> tag2 <span class="hljs-comment">// tag0 跳入下级作用域，tag1跳过声明，均不可行</span><br>		<span class="hljs-keyword">if</span> <span class="hljs-literal">true</span> &#123;<br>            tag0:<br>			fmt.Println(<span class="hljs-string">&quot;tag1&quot;</span>)<br>		&#125;<br>    &#125;<br>    tag1:<br>        i := <span class="hljs-number">3</span><br>        fmt.Println(i)<br>    tag2:<br>        fmt.Println(<span class="hljs-string">&quot;tag2&quot;</span>)	<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<p><code>break</code>语句, <code>continue</code>语句</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 跳出指定的循环</span><br><span class="hljs-comment">// break金和label必须在一个函数里</span><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    tag0:<br>    <span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++ &#123;<br>        tag1:<br>        <span class="hljs-keyword">for</span> j := <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">10</span>; j++ &#123;<br>            <span class="hljs-keyword">for</span> k := <span class="hljs-number">0</span>; k &lt; <span class="hljs-number">10</span>; k++ &#123;<br>                <span class="hljs-keyword">for</span> l := <span class="hljs-number">0</span>; l &lt; <span class="hljs-number">10</span>; l++ &#123;<br>                    fmt.Println(i, j, k, l)<br>                    <span class="hljs-keyword">break</span> tag1 <span class="hljs-comment">// 余下一层循环</span><br>                    <span class="hljs-keyword">break</span> tag0 <span class="hljs-comment">// 全部跳出</span><br>                    <span class="hljs-keyword">continue</span> tag0 <span class="hljs-comment">// 下一个i循环 与 break tag1 等效</span><br>				&#125;<br>			&#125;<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="函数">7. 函数</h3>
+<h4 id="函数定义">7.1 函数定义</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 函数的声明</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">functionName</span><span class="hljs-params">(paraName0 paraType0, paraName1 paraType1)</span></span> returnType&#123;<br>    block<br>&#125;<br><br><span class="hljs-comment">// 相邻变量的类型相同时的省略</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">functionName</span><span class="hljs-params">(paraName0, paraName1 paraType)</span></span> returnType&#123;<br>    block<br>&#125;<br><br><span class="hljs-comment">// 多返回值</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">functionName</span><span class="hljs-params">(paraName paraType)</span></span> (returnType0, returnType1)&#123;<br>    block<br>&#125;<br><br><span class="hljs-comment">// 返回值命名</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">functionName</span><span class="hljs-params">(paraName paraType)</span></span> (returnName0 returnType0, returnName1 returnType1)&#123;<br>    returnName0, returnName1 := something<br>    <span class="hljs-keyword">return</span><br>&#125;<br><br><span class="hljs-comment">// 可变参数，只作为参数表最后一个</span><br><span class="hljs-comment">// 在函数体内表示为一个len=cap的切片</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">functionName</span><span class="hljs-params">(paraName0 paraType0, paraName1 ...paraType1)</span></span> returnType&#123;<br>    block<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="函数类型与函数变量">7.2 函数类型与函数变量</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 函数类型声明</span><br><span class="hljs-keyword">type</span> funcTypeName <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(paraType0, paraType1)</span></span> returnType<br><br><span class="hljs-comment">// 声明一种funcTypeName的函数类型，接受两个int，返回一个int</span><br><span class="hljs-keyword">type</span> funcTypeName <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(<span class="hljs-type">int</span>, <span class="hljs-type">int</span>)</span></span> <span class="hljs-type">int</span><br><br><span class="hljs-comment">// 函数变量的声明与赋值</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">add</span><span class="hljs-params">(x, y <span class="hljs-type">int</span>)</span></span> <span class="hljs-type">int</span> &#123;<br>	<span class="hljs-keyword">return</span> x + y<br>&#125;<br><span class="hljs-keyword">var</span> c funcTypeName<br>c = add<br></code></pre></td></tr></table></figure>
+<h4 id="高阶函数">7.3 高阶函数</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 以函数作为参数</span><br><span class="hljs-comment">// 以函数作为返回值</span><br><span class="hljs-comment">// 可以用声明过的函数类型</span><br><span class="hljs-comment">// 或使用func(paraType0, paraType1) returnType</span><br></code></pre></td></tr></table></figure>
+<h4 id="匿名函数">7.4 匿名函数</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 为函数变量赋值</span><br>funcName := <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">functionName</span><span class="hljs-params">(paraName0 paraType0, paraName1 paraType1)</span></span> returnType&#123;<br>    block<br>&#125;<br><br><span class="hljs-comment">// 自执行函数</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">functionName</span><span class="hljs-params">(paraName0 paraType0, paraName1 paraType1)</span></span>&#123;<br>    block<br>&#125;(para0, para1)<br></code></pre></td></tr></table></figure>
+<h4 id="闭包">7.5 闭包</h4>
+<p>闭包=引用环境+函数</p>
+<p>Golang不支持函数的嵌套定义，但支持在函数内部定义匿名函数来调用。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 例子</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">makeSuffixFunc</span><span class="hljs-params">(suffix <span class="hljs-type">string</span>)</span></span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(<span class="hljs-type">string</span>)</span></span> <span class="hljs-type">string</span> &#123;<br>	<span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(name <span class="hljs-type">string</span>)</span></span> <span class="hljs-type">string</span> &#123;<br>		<span class="hljs-keyword">if</span> !strings.HasSuffix(name, suffix) &#123;<br>			<span class="hljs-keyword">return</span> name + suffix<br>		&#125;<br>		<span class="hljs-keyword">return</span> name<br>	&#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	jpgFunc := makeSuffixFunc(<span class="hljs-string">&quot;.jpg&quot;</span>)<br>	txtFunc := makeSuffixFunc(<span class="hljs-string">&quot;.txt&quot;</span>)<br>	fmt.Println(jpgFunc(<span class="hljs-string">&quot;test&quot;</span>)) <span class="hljs-comment">//test.jpg</span><br>	fmt.Println(txtFunc(<span class="hljs-string">&quot;test&quot;</span>)) <span class="hljs-comment">//test.txt</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="defer">7.6 defer</h4>
+<p><code>defer</code>语句的参数会立即计算，但对其的调用将会推迟到本函数结束。若存在多个<code>defer</code>会遵守先进后出的栈规则，常用于文件关闭、异常处理等。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 使用defer+recover进行异常处理</span><br><span class="hljs-keyword">defer</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span>&#123;<br>    err := <span class="hljs-built_in">recover</span>()<br>    <span class="hljs-comment">//如果程序出出现了panic错误,可以通过recover恢复过来</span><br>    <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br>        fmt.Println(<span class="hljs-string">&quot;recover&quot;</span>)<br>    &#125;<br>&#125;()<br><span class="hljs-built_in">panic</span>(<span class="hljs-string">&quot;panic&quot;</span>)<br><span class="hljs-comment">// 异常抛出后结束本函数的调用，但被defer+recover恢复，在上层函数调用中得以继续执行</span><br></code></pre></td></tr></table></figure>
+<h3 id="指针">8. 指针</h3>
+<p>Golang的指针不能进行偏移和运算。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 声明一个指针</span><br><span class="hljs-keyword">var</span> ptr *TypeName<br><br><span class="hljs-comment">// 取地址</span><br>ptr = &amp;value<br><br><span class="hljs-comment">// 从地址取值</span><br>value = *ptr<br><br><span class="hljs-comment">// 使用new创建一个内存空间</span><br><span class="hljs-keyword">var</span> ptr *TypeName = <span class="hljs-built_in">new</span>(TypeName)<br><br><span class="hljs-comment">// 使用make创建一个内存空间</span><br><span class="hljs-comment">// 只用于slice, map, chan</span><br><span class="hljs-comment">// 由于创建的是引用类型，所以不用返回指针</span><br><br><span class="hljs-comment">// 不同与c/cpp，golang的指针操作也使用.</span><br></code></pre></td></tr></table></figure>
+<h3 id="结构体">9. 结构体</h3>
+<h4 id="类型定义与类型别名">9.1 类型定义与类型别名</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 类型定义</span><br><span class="hljs-keyword">type</span> NewType0 <span class="hljs-type">int</span><br><br><span class="hljs-comment">// 类型别名</span><br><span class="hljs-keyword">type</span> NewType1 = <span class="hljs-type">int</span><br><br><span class="hljs-comment">// 类型定义编译后存在</span><br><span class="hljs-comment">// 类型别名编译被替换，不存在</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	<span class="hljs-keyword">var</span> a NewType0<br>	<span class="hljs-keyword">var</span> b NewType1<br>	<br>	fmt.Printf(<span class="hljs-string">&quot;type of a:%T\n&quot;</span>, a) <span class="hljs-comment">//type of a:main.NewInt</span><br>	fmt.Printf(<span class="hljs-string">&quot;type of b:%T\n&quot;</span>, b) <span class="hljs-comment">//type of b:int</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="结构体的定义与匿名结构体">9.2 结构体的定义与匿名结构体</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> structName <span class="hljs-keyword">struct</span>&#123;<br>    fieldName0 typeName0<br>    fieldName1 typeName1<br>    fieldName2, fieldName3 typeName2<br>&#125;<br><br><span class="hljs-keyword">var</span> variableName <span class="hljs-keyword">struct</span>&#123;fieldName0 typeName0; fieldName1 typeName1&#125;<br><br><span class="hljs-comment">// 匿名字段: 只指明类型的字段，访问时使用类型名访问，同类型只可存在一个匿名字段</span><br><span class="hljs-comment">// 字段大写开头表示可公开访问，小写表示私有（仅在定义当前结构体的包中可访问）</span><br></code></pre></td></tr></table></figure>
+<h4 id="结构体的实例化">9.4 结构体的实例化</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 基本实例化</span><br><span class="hljs-keyword">var</span> variableName structName<br>variableName.field0 = value0<br>variableName.field1 = value1<br><br><span class="hljs-comment">// 使用new为结构体分配内存</span><br><span class="hljs-keyword">var</span> ptr = <span class="hljs-built_in">new</span>(structName)<br>ptr.field0 = value0<br>ptr.field1 = value1<br></code></pre></td></tr></table></figure>
+<h4 id="结构体的初始化">9.5 结构体的初始化</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 未初始化的结构体的各个字段均为对应类型的零值</span><br><span class="hljs-comment">// 使用键值对初始化</span><br><span class="hljs-keyword">var</span> variableName structName = structName&#123;<br>    field0: value0,<br>    field1: value1,<br>&#125;<br><br><span class="hljs-comment">// 按照声明时的顺序初始化</span><br><span class="hljs-keyword">var</span> variableName structName = structName&#123;<br>    value0,<br>    value1,<br>&#125;<br><br><span class="hljs-comment">// 上述两种方法不可混用</span><br></code></pre></td></tr></table></figure>
+<h4 id="结构体的构造函数">9.6 结构体的构造函数</h4>
+<p>Golang不提供构造函数，但可以使用普通函数是实现构造函数的效果。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 结构体复杂的时候若使用返回值的方法会涉及内存拷贝</span><br><span class="hljs-comment">// 这里一般采用返回指针的方式</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">newStructName</span><span class="hljs-params">(fieldName typeName)</span></span> *structName &#123;<br>	<span class="hljs-keyword">return</span> &amp;structName&#123;<br>        fieldName: fieldName<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="方法与接收者">9.7 方法与接收者</h4>
+<p>方法是一种特殊的函数，与接收者绑定，可以借助.使用。</p>
+<p>一般地，使用指针类型作为接收者，这样方法的操作可以修改接受者本身，否则使用值类型作为接收者时会将接收者拷贝一份修改，不会直接修改接受者本身。</p>
+<p>非本地类型不能定义方法，也就是说不能给别的包的类型定义方法。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(reciverName reciverType)</span></span> methodName(paraName0 paraType) (returnType)&#123;<br>    block<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="嵌套结构体与继承">9.8 嵌套结构体与“继承”</h4>
+<p>一个包含另外结构体类型或其指针作为字段的结构体为嵌套结构体。</p>
+<p>Golang可以借助嵌套结构体的方式实现“继承”，该结构体可以适用所包含的结构体的方法，也可进行重写。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> structInside <span class="hljs-keyword">struct</span>&#123;<br>    fieldName fieldType<br>&#125;<br><br><span class="hljs-keyword">type</span> structoutside <span class="hljs-keyword">struct</span>&#123;<br>    fieldName0 structInside<br>    fieldName0 *structInside<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>值得注意的是，在直接初始化时候，需要先初始化一个"父类"。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> structInside <span class="hljs-keyword">struct</span>&#123;<br>    fieldName0 fieldType<br>    fieldName1 fieldType<br>&#125;<br><br><span class="hljs-keyword">type</span> structOutside <span class="hljs-keyword">struct</span>&#123;<br>    structInside<br>    fieldName2 fieldType<br>&#125;<br><br><span class="hljs-comment">// wrong</span><br>v0 := structOutside&#123;<br>    fieldName0: <span class="hljs-number">0</span>,<br>    fieldName1: <span class="hljs-number">0</span>,<br>    fieldName2: <span class="hljs-number">0</span>,<br>&#125;<br><br><span class="hljs-comment">//right</span><br>v0 := structOutside&#123;<br>    structInside&#123;<br>        fieldName0: <span class="hljs-number">0</span>,<br>        fieldName1: <span class="hljs-number">0</span>,<br>    &#125;<br>    fieldName2: <span class="hljs-number">0</span>,<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>而当访问子类未直接定义的成员变量或方法的时候，会尝试访问父类的。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> v0 structOutside<br>v0.fieldName0 = <span class="hljs-number">0</span><br>v0.fieldName1 = <span class="hljs-number">0</span><br>v0.fieldName2 = <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+<h4 id="结构体标签-struct-tag">9.9 结构体标签 Struct Tag</h4>
+<p>结构体的每一个字段都可以有一个Tag，可以使用反射获取其中的字段，具体见反射一章。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> structName <span class="hljs-keyword">struct</span>&#123;<br>    fieldName typeName <span class="hljs-string">`key::value`</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="接口">10. 接口</h3>
+<p>接口是一组方法的集合，是一种类型，一种抽象的类型。</p>
+<h4 id="接口的定义">10.1 接口的定义</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> interfaceName <span class="hljs-keyword">interface</span>&#123;<br>    methodName(paraName0 paraType) (returnType)<br>    methodName(paraName1 paraType) (returnType)<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="接口的实现">10.2 接口的实现</h4>
+<p>具有接口所要求的方法的结构体即实现了该接口，不需要显式说明。</p>
+<p>需要注意的是，结构体在实现接口时的方法集合包含接收者为该结构体的方法，但不包含接收者为该结构体指针的方法；但结构体指针两个都包含。这一点可能会导致一些<code>not implemented error</code>。</p>
+<p>接口只有方法，而不能访问实现它的结构体的属性字段。</p>
+<p>一个类型可以实现多个接口，一个接口也可以由多个类型实现。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 接口的实现</span><br><span class="hljs-comment">// structName 包含 methodName的实现，因为其接收者是值</span><br><span class="hljs-keyword">type</span> interfaceName <span class="hljs-keyword">interface</span>&#123;<br>	methodName()<br>&#125;<br><br><span class="hljs-keyword">type</span> structName <span class="hljs-keyword">struct</span>&#123;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(self structName)</span></span> methodName()&#123;<br>&#125;<br><br><span class="hljs-keyword">var</span> variableName interfaceName = structName&#123;&#125;<br><br><span class="hljs-comment">// 错误的接口实现</span><br><span class="hljs-comment">// structName 不包含 methodName的实现，因为其接收者是指针</span><br><span class="hljs-keyword">type</span> interfaceName <span class="hljs-keyword">interface</span>&#123;<br>	methodName()<br>&#125;<br><br><span class="hljs-keyword">type</span> structName <span class="hljs-keyword">struct</span>&#123;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(self *structName)</span></span> methodName()&#123;<br>&#125;<br><br><span class="hljs-keyword">var</span> variableName interfaceName = structName&#123;&#125;<br><br><span class="hljs-comment">// 指针形式的接口实现</span><br><span class="hljs-comment">// *structName 包含 methodName的实现</span><br><span class="hljs-keyword">type</span> interfaceName <span class="hljs-keyword">interface</span>&#123;<br>	methodName()<br>&#125;<br><br><span class="hljs-keyword">type</span> structName <span class="hljs-keyword">struct</span>&#123;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(self *structName)</span></span> methodName()&#123;<br>&#125;<br><br><span class="hljs-keyword">var</span> variableName interfaceName = &amp;structName&#123;&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="接口嵌套">10.3 接口嵌套</h4>
+<p>Golang支持接口内包含接口，实现所包含的所有接口即实现本接口。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> interfaceName0 <span class="hljs-keyword">interface</span>&#123;<br>    methodName0()<br>&#125;<br><br><span class="hljs-keyword">type</span> interfaceName1 <span class="hljs-keyword">interface</span>&#123;<br>    methodName1()<br>&#125;<br><br><span class="hljs-keyword">type</span> interfaceName <span class="hljs-keyword">interface</span>&#123;<br>    interfaceName0<br>    interfaceName1<br>&#125;<br><br><span class="hljs-keyword">type</span> structName <span class="hljs-keyword">struct</span>&#123;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(self structName)</span></span> methodName0()&#123;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(self structName)</span></span> methodName1()&#123;<br>&#125;<br><br><span class="hljs-keyword">var</span> variableName interfaceName = structName&#123;&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="空接口">10.4 空接口</h4>
+<p>空接口是指没有定义任何方法的接口，因此任何类型都实现了空接口。空接口类型的变量可以存储任意类型的变量，使用空接口实现可以接收任意类型的函数参数。</p>
+<h4 id="类型断言">10.5 类型断言</h4>
+<p>用于判断一个接口类型的变量是否属于一个类型。</p>
+<p>一个接口的值是由一个具体类型和具体类型的值两部分组成的。这两部分分别称为接口的动态类型和动态值。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 直接断言，若失败则触发panic</span><br>value := interfaceVariable.(Type)<br><br><span class="hljs-comment">// 若ok == true value为成功转换为Type的变量</span><br>value, ok := interfaceVariable.(Type)<br><br><span class="hljs-comment">// type switch实现</span><br><span class="hljs-comment">// 注意，x必须为一个接口类型的变量</span><br><span class="hljs-comment">// case后必须均为已经实现该接口的类型</span><br><span class="hljs-comment">// 此处不可使用fallthrough</span><br><span class="hljs-keyword">switch</span> value := x.(<span class="hljs-keyword">type</span>)&#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-type">string</span>:<br>    <span class="hljs-keyword">case</span> <span class="hljs-type">int</span>:<br>    <span class="hljs-keyword">default</span>:<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="反射">11. 反射</h3>
+<p><strong><em>这块比较复杂，暂时不是很了解</em></strong></p>
+<p>反射(<code>reflect</code>)支持对一个接口的类型、值等的获取。</p>
+<p>包含变量的内存空间由<code>pair&lt;type:something, value:something&gt;</code>构成，在不断的变量赋值断言等操作中，该<code>pair</code>保持不变。</p>
+<h4 id="反射初步">11.0 反射初步</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> Reader <span class="hljs-keyword">interface</span> &#123;<br>    ReadBook()<br>&#125;<br><span class="hljs-keyword">type</span> Writer <span class="hljs-keyword">interface</span> &#123;<br>    WriteBook()<br>&#125;<br><span class="hljs-comment">//具体类型</span><br><span class="hljs-keyword">type</span> Book <span class="hljs-keyword">struct</span> &#123;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(this *Book)</span></span> ReadBook() &#123;<br>    fmt.Println(<span class="hljs-string">&quot;Read a book.&quot;</span>)<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(this *Book)</span></span> WriteBook() &#123;<br>    fmt.Println(<span class="hljs-string">&quot;Write a book.&quot;</span>)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    b := &amp;Book&#123;&#125;<br>    <span class="hljs-keyword">var</span> r Reader<br>    r = b<br>    r.ReadBook()<br>    <span class="hljs-keyword">var</span> w Writer<br>    <span class="hljs-comment">// Error Reader does not implement Writer</span><br>    w = Writer(r)<br>    <span class="hljs-comment">// ok</span><br>    w = r.(Writer)<br>    w, ok := r.(Writer)<br>    w.WriteBook()<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="type">11.1 Type</h4>
+<p><code>reflect.TypeOf()</code>可以获得<code>reflect.Type</code>描述的类型，其中包含该类型的一些信息。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs go">t := reflect.TypeOf(x)<br><span class="hljs-comment">// 编译后的类型名称</span><br>t.Name()<br><br><span class="hljs-comment">// 底层的类型名称</span><br>t.Kind()<br><br><span class="hljs-comment">// Kind支持</span><br><span class="hljs-keyword">type</span> Kind <span class="hljs-type">uint</span><br><span class="hljs-keyword">const</span> (<br>    Invalid Kind = <span class="hljs-literal">iota</span>  <span class="hljs-comment">// 非法类型</span><br>    Bool                 <span class="hljs-comment">// 布尔型</span><br>    Int                  <span class="hljs-comment">// 有符号整型</span><br>    Int8                 <span class="hljs-comment">// 有符号8位整型</span><br>    Int16                <span class="hljs-comment">// 有符号16位整型</span><br>    Int32                <span class="hljs-comment">// 有符号32位整型</span><br>    Int64                <span class="hljs-comment">// 有符号64位整型</span><br>    Uint                 <span class="hljs-comment">// 无符号整型</span><br>    Uint8                <span class="hljs-comment">// 无符号8位整型</span><br>    Uint16               <span class="hljs-comment">// 无符号16位整型</span><br>    Uint32               <span class="hljs-comment">// 无符号32位整型</span><br>    Uint64               <span class="hljs-comment">// 无符号64位整型</span><br>    Uintptr              <span class="hljs-comment">// 指针</span><br>    Float32              <span class="hljs-comment">// 单精度浮点数</span><br>    Float64              <span class="hljs-comment">// 双精度浮点数</span><br>    Complex64            <span class="hljs-comment">// 64位复数类型</span><br>    Complex128           <span class="hljs-comment">// 128位复数类型</span><br>    Array                <span class="hljs-comment">// 数组</span><br>    Chan                 <span class="hljs-comment">// 通道</span><br>    Func                 <span class="hljs-comment">// 函数</span><br>    Interface            <span class="hljs-comment">// 接口</span><br>    Map                  <span class="hljs-comment">// 映射</span><br>    Ptr                  <span class="hljs-comment">// 指针</span><br>    Slice                <span class="hljs-comment">// 切片</span><br>    String               <span class="hljs-comment">// 字符串</span><br>    Struct               <span class="hljs-comment">// 结构体</span><br>    UnsafePointer        <span class="hljs-comment">// 底层指针</span><br>)<br></code></pre></td></tr></table></figure>
+<h4 id="value">11.2 Value</h4>
+<p><code>reflect.ValueOf()</code>返回的是<code>reflect.Value</code>类型，其中包含了原始值的值信息。<code>reflect.Value</code>与原始值之间可以互相转换。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs go">v := reflect.ValueOf(x)<br></code></pre></td></tr></table></figure>
+<h4 id="typeof-和valueof">11.3 <code>TypeOf</code>
+和<code>ValueOf</code></h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> User <span class="hljs-keyword">struct</span> &#123;<br>	Id   <span class="hljs-type">int</span><br>	Name <span class="hljs-type">string</span><br>	Age  <span class="hljs-type">int</span><br>&#125;<br><br><span class="hljs-keyword">type</span> SuperUser <span class="hljs-keyword">struct</span> &#123;<br>	User<br>	Passwd <span class="hljs-type">string</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(u User)</span></span> SelfMethod() &#123;<br>	fmt.Println(<span class="hljs-string">&quot;SelfMethod Is Called&quot;</span>)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(u *User)</span></span> SelfPtrMethod() &#123;<br>	fmt.Println(<span class="hljs-string">&quot;SelfPtrMethod Is Called&quot;</span>)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">ReflectionTest</span><span class="hljs-params">(input <span class="hljs-keyword">interface</span>&#123;&#125;)</span></span> &#123;<br>	<span class="hljs-keyword">var</span> reflected_Type reflect.Type<br>	<span class="hljs-keyword">var</span> reflected_Value reflect.Value<br>	reflected_Type = reflect.TypeOf(input)<br>	fmt.Println(<span class="hljs-string">&quot;Reflected Type is :&quot;</span>, reflected_Type.Name())<br>	reflected_Value = reflect.ValueOf(input)<br>	fmt.Println(<span class="hljs-string">&quot;Reflected Value for all Fields is:&quot;</span>, reflected_Value)<br><br>	<span class="hljs-comment">// 获取方法字段</span><br>	<span class="hljs-comment">// 1. 先获取interface的reflect.Type，然后通过NumField进行遍历</span><br>	<span class="hljs-comment">// 2. 再通过reflect.Type的Field获取其Field</span><br>	<span class="hljs-comment">// 3. 最后通过Field的Interface()得到对应的value</span><br>	num_field := reflected_Type.NumField()<br>	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; num_field; i++ &#123;<br>		field := reflected_Type.Field(i)<br>		value := reflected_Value.Field(i).Interface()<br>		fmt.Printf(<span class="hljs-string">&quot;%s: %v = %v\n&quot;</span>, field.Name, field.Type, value)<br>	&#125;<br><br>	<span class="hljs-comment">// 通过反射访问结构体绑定的方法</span><br>	num_method := reflected_Type.NumMethod()<br>	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; num_method; i++ &#123;<br>		method := reflected_Type.Method(i)<br>		fmt.Printf(<span class="hljs-string">&quot;%s: %v\n&quot;</span>, method.Name, method.Type)<br>		method.Func.Call([]reflect.Value&#123;reflect.ValueOf(input)&#125;)<br>	&#125;<br><br>	<span class="hljs-comment">// reflect.Value.Elem() 解除一层interface 或 指针</span><br>    <span class="hljs-comment">// 通过reflect修改字段</span><br><br>	v := reflect.ValueOf(&amp;input).Elem()<br>	tmp := reflect.New(v.Elem().Type()).Elem()<br>	tmp.Set(v.Elem())<br>	tmp.FieldByName(<span class="hljs-string">&quot;Passwd&quot;</span>).SetString(<span class="hljs-string">&quot;Hello&quot;</span>)<br>	v.Set(tmp)<br>	fmt.Println(input)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	user := SuperUser&#123;<br>		User&#123;<br>			Id:   <span class="hljs-number">111</span>,<br>			Name: <span class="hljs-string">&quot;Doctor&quot;</span>,<br>			Age:  <span class="hljs-number">18</span>,<br>		&#125;,<br>		<span class="hljs-string">&quot;good&quot;</span>,<br>	&#125;<br>	ReflectionTest(user)<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="struct-tag和json解析">11.4 Struct Tag和Json解析</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">import</span> (<br>	<span class="hljs-string">&quot;encoding/json&quot;</span><br>	<span class="hljs-string">&quot;fmt&quot;</span><br>	<span class="hljs-string">&quot;reflect&quot;</span><br>)<br><br><span class="hljs-keyword">type</span> Event <span class="hljs-keyword">struct</span> &#123;<br>	Date  <span class="hljs-type">string</span> <span class="hljs-string">`json:&quot;date&quot;`</span><br>	Title <span class="hljs-type">string</span> <span class="hljs-string">`json:&quot;title&quot;`</span><br>&#125;<br><br><span class="hljs-keyword">type</span> Response <span class="hljs-keyword">struct</span> &#123;<br>	Code   <span class="hljs-type">string</span>  <span class="hljs-string">`json:&quot;code&quot;`</span><br>	Day    <span class="hljs-type">string</span>  <span class="hljs-string">`json:&quot;day&quot;`</span><br>	Result []Event <span class="hljs-string">`json:&quot;result&quot;`</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	strs := <span class="hljs-string">`</span><br><span class="hljs-string">	&#123;</span><br><span class="hljs-string">		&quot;code&quot;: &quot;200&quot;,</span><br><span class="hljs-string">		&quot;day&quot;: &quot;09/ 08&quot;,</span><br><span class="hljs-string">		&quot;result&quot;: [</span><br><span class="hljs-string">			&#123;</span><br><span class="hljs-string">				&quot;date&quot;: &quot;1157年09月08日&quot;,</span><br><span class="hljs-string">				&quot;title&quot;: &quot;英国国王理查一世出生&quot;</span><br><span class="hljs-string">			&#125;,</span><br><span class="hljs-string">			&#123;</span><br><span class="hljs-string">				&quot;date&quot;: &quot;1588年09月08日&quot;,</span><br><span class="hljs-string">				&quot;title&quot;: &quot;法国神学家马林·梅森出生&quot;</span><br><span class="hljs-string">			&#125;,</span><br><span class="hljs-string">			&#123;</span><br><span class="hljs-string">				&quot;date&quot;: &quot;1894年09月08日&quot;,</span><br><span class="hljs-string">				&quot;title&quot;: &quot;德国科学家亥姆霍兹逝世&quot;</span><br><span class="hljs-string">			&#125;</span><br><span class="hljs-string">		]</span><br><span class="hljs-string">	&#125;</span><br><span class="hljs-string">	`</span><br><br>	<span class="hljs-keyword">var</span> dict Response<br><br>	err = json.Unmarshal([]<span class="hljs-type">byte</span>(strs), &amp;dict)<br>	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br>		<span class="hljs-built_in">panic</span>(err)<br>	&#125;<br><br>	fmt.Println(<span class="hljs-string">&quot;Code:&quot;</span>, dict.Code)<br>	fmt.Println(<span class="hljs-string">&quot;Day:&quot;</span>, dict.Day)<br>	fmt.Println(<span class="hljs-string">&quot;Events:&quot;</span>)<br>	<span class="hljs-keyword">for</span> _, event := <span class="hljs-keyword">range</span> dict.Result &#123;<br>		fmt.Printf(<span class="hljs-string">&quot;Date: %s\n&quot;</span>, event.Date)<br>		fmt.Printf(<span class="hljs-string">&quot;Title: %s\n&quot;</span>, event.Title)<br>		fmt.Println()<br>	&#125;<br><br>    <br>	<span class="hljs-comment">// 获得结构体的字段</span><br>    field, _ := reflect.TypeOf(dict).FieldByName(<span class="hljs-string">&quot;Code&quot;</span>)<br>	<span class="hljs-comment">// 查询结构体字段是否存在一个键</span><br>    tag_value, ok := field.Tag.Lookup(<span class="hljs-string">&quot;code&quot;</span>)<br>	fmt.Println(tag_value, ok)<br>    <span class="hljs-comment">// 获取结构体字段Tag键的值</span><br>	tag_value = field.Tag.Get(<span class="hljs-string">&quot;json&quot;</span>)<br>	fmt.Println(tag_value)<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<h3 id="包">12. 包</h3>
+<p>一个包可以简单理解为一个存放<code>.go</code>文件的文件夹。
+该文件夹下面的所有go文件都要在代码的第一行添加如下代码，声明该文件归属的包。一个文件夹下面直接包含的文件只能归属一个package，同样一个package的文件不能在多个文件夹下。</p>
+<p><code>main</code>包为入口包，不是main包的程序编译后没有可执行文件。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> packageName<br></code></pre></td></tr></table></figure>
+<h4 id="包的导入">12.1 包的导入</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;packageName&quot;</span> <span class="hljs-comment">// packageName从$GOPATH/src/开始</span><br><span class="hljs-keyword">import</span> newPackageName <span class="hljs-string">&quot;packageName&quot;</span><br><span class="hljs-keyword">import</span> (<br>    <span class="hljs-string">&quot;packageName0&quot;</span><br>    newPackageName1 <span class="hljs-string">&quot;packageName1&quot;</span><br>)<br></code></pre></td></tr></table></figure>
+<h4 id="包的初始化">12.2 包的初始化</h4>
+<p>包的初始化依照以下顺序:全局声明，init函数，main函数。若存在嵌套调用则按照栈的原则初始化。</p>
+<h3 id="并发">13. 并发</h3>
+<h4 id="goroutine">13.1 goroutine</h4>
+<p>goroutine是一种比线程更加轻量的协程。</p>
+<p>一般地，goroutine会在主线程结束后强制被退出。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 启动一个协程</span><br><span class="hljs-keyword">go</span> funcName(para0, para1)<br></code></pre></td></tr></table></figure>
+<h4 id="channel">13.2 channel</h4>
+<p>通道(<code>channel</code>)是一种Golang中可用于不同协程间传递数据的数据类型，属于引用类型，需要<code>make</code>初始化</p>
+<p>当发送goroutine遇到缓冲区已满或接收goroutine遇到缓冲区空时，Goroutine被阻塞，这种情况可能引起死锁，需要注意。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 声明一个用于传递TypeName的通道ch</span><br><span class="hljs-keyword">var</span> ch <span class="hljs-keyword">chan</span> TypeName<br><br><span class="hljs-comment">// 用make创建无缓冲的channel</span><br><span class="hljs-keyword">var</span> ch <span class="hljs-keyword">chan</span> TypeName = <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> TypeName)<br><br><span class="hljs-comment">// 用make创建有缓冲的channel</span><br><span class="hljs-keyword">var</span> ch <span class="hljs-keyword">chan</span> TypeName = <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> TypeName, cacheLength)<br><br><span class="hljs-comment">// 向channel发送</span><br>ch &lt;- item<br><br><span class="hljs-comment">// 从channel中取出</span><br>item = &lt;- ch<br>item, ok = &lt;- ch<br><br><span class="hljs-comment">// 使用close关闭channel，这样支持退出for-range</span><br><span class="hljs-comment">// 向已关闭的channel发送会导致程序panic</span><br><span class="hljs-comment">// 从已经关闭的channel中取值会先耗尽缓冲后取出对应类型的零值</span><br><span class="hljs-built_in">close</span>(ch)<br><br><span class="hljs-comment">// 对于channel的for-range</span><br><span class="hljs-keyword">for</span> item := <span class="hljs-keyword">range</span> ch&#123;<br>    fmt.Println(item)<br>&#125;<br><br><span class="hljs-comment">// 函数声明时的单向通道</span><br><span class="hljs-comment">// 在函数传参及任何赋值操作中可以将双向通道转换为单向通道，但反过来是不可以</span><br><span class="hljs-comment">// 只发送通道</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">funcName</span><span class="hljs-params">(out <span class="hljs-keyword">chan</span>&lt;- TypeName)</span></span>&#123;<br>    <span class="hljs-comment">// out为只发送通道，只能发送或关闭通道</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">funcName</span><span class="hljs-params">(in &lt;-<span class="hljs-keyword">chan</span> TypeName)</span></span>&#123;<br>    <span class="hljs-comment">// in为只发送通道，只能发接收，不可关闭通道</span><br>&#125;<br><br></code></pre></td></tr></table></figure>
+<h4 id="select">13.3 select</h4>
+<p><code>select</code>的使用类似于switch语句，它有一系列case分支和一个默认的分支。每个case会对应一个通道的通信（接收或发送）过程。<code>select</code>会一直等待，直到某个<code>case</code>的通信操作完成时，就会执行<code>case</code>分支对应的语句。</p>
+<p>如果多个<code>case</code>同时满足，<code>select</code>会随机选择一个。</p>
+<p>对于没有<code>case</code>的<code>select&#123;&#125;</code>会一直等待，可用于阻塞main函数。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">select</span>&#123;<br>    <span class="hljs-keyword">case</span> &lt;-ch1:<br>        ...<br>    <span class="hljs-keyword">case</span> data := &lt;-ch2:<br>        ...<br>    <span class="hljs-keyword">case</span> ch3&lt;-data:<br>        ...<br>    <span class="hljs-keyword">default</span>:<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="并发任务的同步">13.4 并发任务的同步</h4>
+<p>许多时候一个goroutine需要等待其他的goroutine结束后再进行部分操作，可用<code>sync.WaitGroup</code>实现</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">方法名</th>
+<th style="text-align: left;">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(wg * WaitGroup) Add(delta int)</td>
+<td style="text-align: left;">计数器+delta</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">(wg *WaitGroup) Done()</td>
+<td style="text-align: left;">计数器-1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">(wg *WaitGroup) Wait()</td>
+<td style="text-align: left;">阻塞直到计数器变为0</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">funcName</span><span class="hljs-params">(wg *sync.WaitGroup)</span></span>&#123;<br>    <span class="hljs-comment">// something working </span><br>    wg.Done()<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">var</span> wg sync.WaitGroup<br>    <span class="hljs-keyword">for</span> i:=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">10</span>; i++&#123;<br>        wg.Add(<span class="hljs-number">1</span>)<br>        <span class="hljs-keyword">go</span> funcName(&amp;wg)<br>    &#125;<br>    wg.Wait()<br>    fmt.Println(<span class="hljs-string">&quot;Done&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="互斥锁">13.5 互斥锁</h4>
+<p>互斥锁确保只有一个goroutine能够进入临界区，其他未能取得锁的goroutine必须阻塞等待。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">funcName</span><span class="hljs-params">(wg *sync.WaitGroup, lock *sync.Mutex)</span></span>&#123;<br>    <span class="hljs-comment">// 加锁</span><br>    lock.Lock()<br>    <span class="hljs-comment">// 临界区代码</span><br>    lock.Unlock() <span class="hljs-comment">// 解锁</span><br>    wg.Done()<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">var</span> wg sync.WaitGroup<br>    <span class="hljs-keyword">var</span> lock sync.Mutex<br>    <span class="hljs-keyword">for</span> i:=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">10</span>; i++&#123;<br>        wg.Add(<span class="hljs-number">1</span>)<br>        <span class="hljs-keyword">go</span> funcName(&amp;wg, &amp;lock)<br>    &#125;<br>    wg.Wait()<br>    fmt.Println(<span class="hljs-string">&quot;Done&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="读写锁">13.6 读写锁</h4>
+<p>与互斥锁不同，当有goroutine获取读锁时，其他需要读锁的goroutine可以继续获得，需要写锁的阻塞。当有goroutine获得写锁时，其他所有goroutine均阻塞等待。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> (<br>	x      <span class="hljs-type">int64</span><br>	wg     sync.WaitGroup<br>	rwlock sync.RWMutex<br>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">funcWrite</span><span class="hljs-params">(wg *sync.WaitGroup, lock *sync.RWMutex)</span></span>&#123;<br>    <span class="hljs-comment">// 加写锁</span><br>    rwlock.Lock()<br>    <span class="hljs-comment">// 临界区: 写</span><br>    <span class="hljs-comment">// 解写锁</span><br>    rwlock.Unlock()<br>    wg.Done()<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">funcRead</span><span class="hljs-params">(wg *sync.WaitGroup, lock *sync.RWMutex)</span></span>&#123;<br>    <span class="hljs-comment">// 加读锁</span><br>    rwlock.RLock()<br>    <span class="hljs-comment">// 临界区: 读</span><br>    <span class="hljs-comment">// 解读锁</span><br>    rwlock.RUnlock()<br>    wg.Done()<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">var</span> wg sync.WaitGroup<br>    <span class="hljs-keyword">var</span> lock sync.RWMutex<br>    <span class="hljs-keyword">for</span> i:=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">10</span>; i++&#123;<br>        wg.Add(<span class="hljs-number">1</span>)<br>        <span class="hljs-keyword">go</span> funcRead(&amp;wg, &amp;lock)<br>        <span class="hljs-keyword">go</span> funcWrite(&amp;wg, &amp;lock)<br>    &#125;<br>    wg.Wait()<br>    fmt.Println(<span class="hljs-string">&quot;Done&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Language/">#Language</a>
+      
+        <a href="/tags/Golang/">#Golang</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Golang快速入门</div>
+      <div>http://hello-world-my-world.github.io/2022/01/24/2022-01-24-Golang快速入门/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Doctor</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 24, 2022</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - Non-commercial">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - No derivative works">
+                    <i class="iconfont icon-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/05/2022-03-05-Rust%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Rust基础入门">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Rust基础入门</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/19/2021-12-19-%E5%9F%BA%E4%BA%8EDocker%E7%9A%84jekyll-TeXt%E6%9C%AC%E5%9C%B0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/" title="基于Docker的jekyll-TeXt本地环境搭建指南">
+                        <span class="hidden-mobile">基于Docker的jekyll-TeXt本地环境搭建指南</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
